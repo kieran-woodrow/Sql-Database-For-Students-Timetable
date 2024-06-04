@@ -1,0 +1,67 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+								QUERIES\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl300\sa266\partightenfactor0
+\ls1\ilvl0
+\f1\fs26\fsmilli13333 \cf2 {\listtext	1.	}\expnd0\expndtw0\kerning0
+Add students to the database. 										\kerning1\expnd0\expndtw0 INSERT INTO `Student_Info` (Student_Number, First_Name,  Last_Name, Year) VALUES (\'93 \'94, \'93 \'94, \'93 \'93, \'93 \'93);\
+{\listtext	2.	}\expnd0\expndtw0\kerning0
+Add venues to the database. \uc0\u8232 \kerning1\expnd0\expndtw0 INSERT INTO `Venues` (VID,  Venues,  LectureCapacity, ExamCapacity) VALUES ( , \'93 \'94, \'93 \'93, \'93 \'93);\
+{\listtext	3.	}\expnd0\expndtw0\kerning0
+Add modules with their prerequisites to the database.                                                        \kerning1\expnd0\expndtw0 INSERT INTO `Module_Info` (MID,  Year,  Semester,  Module_Code, Module, Prerequisite) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93 \'93, \'93 \'93);\
+{\listtext	4.	}\expnd0\expndtw0\kerning0
+Add tests to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Semester_Tests1` (Module_IDSemester1,  Date,  Time,  Venue_Semester) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93 \'93);\
+{\listtext	5.	}\expnd0\expndtw0\kerning0
+Add tests to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Semester_Tests2` (Module_IDSemester2,  Date,  Time,  Venue_Semester) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93);\expnd0\expndtw0\kerning0
+\uc0\u8232 \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	6.	}\expnd0\expndtw0\kerning0
+Add tests to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Semester_Tests3` (Module_IDSemester3,  Date,  Time,  Venue_Semester) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93 \'93);\
+{\listtext	7.	}\expnd0\expndtw0\kerning0
+Add Lectures to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Lectures` (Module_IDLecture,  Lecture_Group,  Lecture_Slot,  Day, Time, Lecture_Venue) VALUES (  , \'93 \'93 , \'93 \'93, \'93 \'93, \'93 \'93, \'93 \'94);\
+{\listtext	8.	}\expnd0\expndtw0\kerning0
+Add Exams to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Exams` (Module_IDExam,  Date,  Time,  Venue_Exams) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93 \'93);\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl300\sa266\partightenfactor0
+\ls1\ilvl0
+\f0\fs24 \cf0 {\listtext	9.	}
+\f1\fs26\fsmilli13333 \cf2 \expnd0\expndtw0\kerning0
+Add SuppExams to the database. 					                                                       \kerning1\expnd0\expndtw0 INSERT INTO `Supplementary_Exams` (Module_IDSupp,  Date,  Time,  Venue_Supp) VALUES (  ,  , \'93 \'93, \'93 \'93, \'93 \'93);\
+{\listtext	10.	}\expnd0\expndtw0\kerning0
+Show schedule for a module(exams, supplementary exams and lectures).	\kerning1\expnd0\expndtw0 			                                                                                                 //Store the module you are looking for into a variable (it holds the module id number) with this query..... select MID from Module_Info where Module_Code="COS110\'94;(add any module code)..then SELECT * FROM Exams WHERE Module_IDExam=9;(The 9 is the id of the variable from the returned first query) SELECT * FROM Lectures WHERE Module_IDLecture=9;  		SELECT * FROM Supplementary_Exams WHERE Module_IDSupp=9;\
+{\listtext	11.	}\expnd0\expndtw0\kerning0
+Show prerequisites for a module. 	                                                      				 SELECT Prerequisite FROM Module_Info WHERE Module_Code=\'93COS110\'94;\uc0\u8232 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl300\sa266\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 {\listtext	12.	}\expnd0\expndtw0\kerning0
+Show all students registered for a module. 								select First_Name, Last_Name from Student_Module where MID1=20;\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	13.	}\
+{\listtext	14.	}\
+{\listtext	15.	}\
+{\listtext	16.	}update Student_Module\
+{\listtext	17.	}set MID1=\'93xx\'94,  MID2=\'93xx\'94, MID3=\'93xx\'94, MID4=\'93xx\'94, MID5=\'93xx\'94, MID6=\'93xx\'94, MID7=\'93xx\'94, MID8=\'93xx\'94, MID9\'94xx\'94, MID10\'94xx\'94,  MID11\'94xx\'94, MID12\'94xx\'94, MID13\'94xx\'94, MID14\'94xx\'94, MID15\'94xx\'94 where Student_Number=xxxxxxxx\
+\pard\tx566\pardeftab720\sl300\sa266\partightenfactor0
+\cf2 \
+																	18.  \
+ run a for loop with counter x up to 15\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl300\sa266\partightenfactor0
+\ls2\ilvl0\cf2 	int number=select MID+\'94x\'94 from Student_Module where Student_Number+\'94x\'94=xxxxxxxx and status=\'93pass\'94;\
+Returns a number\
+Then select Module_Code from Module_Info where MID=number;\
+19.\
+Int number=select MID+\'94x\'94 from Student_Module where Student_Number+\'94x\'94 =xxxxxxxx and status=\'93fail\'94;\
+\
+ \
+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl300\sa266\partightenfactor0
+\ls2\ilvl0\cf2 \expnd0\expndtw0\kerning0
+\uc0\u8232 \u8232 \
+}

@@ -1,0 +1,1424 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 	-- DROPPING ALL THE TABLES \
+	DROP TABLE assessment;\
+	DROP TABLE prerequisite;\
+	DROP TABLE lecture;\
+	DROP TABLE venue;\
+	DROP TABLE student_Module;\
+	DROP TABLE module;\
+	DROP TABLE student;\
+\
+	Create Table student(\
+	Student_Number VARCHAR(8) NOT NULL PRIMARY KEY,\
+	first_Name VARCHAR(30) NOT NULL,\
+	last_Name VARCHAR(20) NOT NULL,\
+	year_Study INTEGER(1) NOT NULL,\
+	final_Mark INTEGER(3) NOT NULL DEFAULT 0\
+	);\
+\
+	Create Table module(\
+		module_Code VARCHAR(7) NOT NULL	PRIMARY KEY,\
+		description VARCHAR(60) NOT NULL,\
+		module_Year INTEGER(1) NOT NULL,\
+		module_Semester VARCHAR(10) NOT NULL,\
+		module_Capacity INTEGER(4) NOT NULL\
+		);\
+\
+	Create Table student_Module\
+	(	\
+		SID INTEGER AUTO_INCREMENT,\
+		student_Number VARCHAR(8) NOT NULL ,\
+		module_Code VARCHAR(7) NOT NULL ,\
+		mark INTEGER(3) NOT NULL DEFAULT 0,\
+		stat VARCHAR(12) NOT NULL DEFAULT "Registered",\
+		PRIMARY KEY (SID),\
+		FOREIGN KEY(student_Number) REFERENCES student(student_Number),\
+		FOREIGN KEY(module_Code) REFERENCES module(module_Code)\
+	);\
+\
+	CREATE TABLE prerequisite\
+	(\
+		module_Code VARCHAR(7) NOT NULL,\
+		prereq VARCHAR(30) NOT NULL DEFAULT 'none',\
+		PRIMARY KEY(module_Code,prereq),\
+		foreign key(module_Code) REFERENCES module(module_Code)\
+	);\
+\
+	CREATE TABLE venue\
+	(\
+		venue_Name VARCHAR(30) NOT NULL PRIMARY KEY,\
+		Capacity INTEGER(4) NOT NULL,\
+		ExamCapacity INTEGER(4) NOT NULL\
+	);\
+\
+	CREATE TABLE lecture\
+	( \
+		module_Code VARCHAR(7) NOT NULL,\
+		venue_Name VARCHAR(30) NOT NULL,\
+		lesson INTEGER(1) NOT NULL,\
+		l_Group VARCHAR(10) NOT NULL,\
+		l_Time VARCHAR(20) NOT NULL, \
+		l_day VARCHAR(9) NOT NULL,\
+		PRIMARY KEY(module_Code,venue_Name,lesson,l_Group),\
+		FOREIGN KEY(module_Code) REFERENCES module(module_Code),\
+		FOREIGN KEY(venue_Name) REFERENCES venue(venue_Name)\
+	);\
+		\
+	CREATE TABLE assesment\
+	(\
+		module_Code VARCHAR(7) NOT NULL,\
+		venue_name VARCHAR(30) NOT NULL,\
+		assesment_Type VARCHAR(20) NOT NULL,\
+		assesment_Date DATE NOT NULL,\
+		assesment_Time VARCHAR(20) NOT NULL,\
+		PRIMARY KEY(module_Code, venue_name, assesment_Date,assesment_Time),\
+		FOREIGN KEY(module_Code) REFERENCES module(module_Code),\
+		FOREIGN KEY(venue_Name) REFERENCES venue(venue_Name)\
+	);\
+\
+\
+	INSERT INTO venue(venue_Name, Capacity, ExamCapacity)\
+	VALUES\
+	("Roos Hall", 580, 280),\
+	("Thuto 1-1", 600, 300),\
+	("Thuto 1-2", 600, 300),\
+	("Thuto 3-1", 600, 300),\
+	("Thuto 3-2", 600, 300),\
+	("Centenary 1", 300, 150), \
+	("Centenary 2", 300, 150), \
+	("Centenary 3", 300, 150), \
+	("Centenary 4", 300, 150), \
+	("Centenary 5", 300, 150), \
+	("Centenary 6", 300, 150), \
+	("Louw Hall", 400, 180),\
+	("Te Water Hall", 230, 110),\
+	("Muller Hall", 230, 110),\
+	("Van der Bijl Hall", 300, 150),\
+	("Large Chemistry", 580, 260),\
+	("North Hall", 260, 110),\
+	("South Hall", 60, 110), \
+	("IT 2-23", 313, 150),\
+	("IT 2-24", 102, 50),\
+	("IT 2-25", 125, 60),\
+	("IT 2-26", 200, 115),\
+	("IT 4-1", 313, 150),\
+	("IT 4-2", 102, 50),\
+	("IT 4-3", 124, 54),\
+	("IT 4-4", 225, 118),\
+	("IT 4-5", 311, 150),\
+	("EMS 2-150", 200, 103),\
+	("EMS 2-151", 200, 103),\
+	("EMS 4-150", 200, 103),\
+	("EMS 4-151", 200, 103),\
+	("EMS 4-152", 300, 150),\
+	("AE du Toit Auditorium", 600, 320),\
+	("AE Annex", 280, 140),\
+	("Theology 1-9", 144, 70),\
+	("Theology 1-19", 84, 40),\
+	("Theology 1-25", 170, 80),\
+	("Theology 1-28", 74, 40),\
+	("Theology 2-1", 120, 60),\
+	("ENG 3-1", 460, 180),\
+	("ENG 3-2", 160, 75),\
+	("ENG 3-3", 160, 75),\
+	("ENG 3-4", 160, 75),\
+	("ENG 3-5", 160, 75),\
+	("ENG 3-6", 460, 180),\
+	("ENG 3-7", 500, 220),\
+	("Informatorium Blue lab 1", 40, 38),\
+	("Law Building 1-54", 250, 100),\
+	("Law Building 1-31", 60, 30),\
+	("Law Building 2-9", 50, 25),\
+	("Law Building 2-42", 50, 25),\
+	("HB 1-4", 72, 0),\
+	("HB 1-5", 35, 0),\
+	("HB 1-6", 42, 0),\
+	("HB 1-7", 42, 0),\
+	("HB 1-10", 30, 0),\
+	("HB 1-12", 42, 0),\
+	("HB 1-13", 42, 0),\
+	("HB 3-14", 81, 40),\
+	("HB 3-15", 126, 60),\
+	("HB 3-23", 126, 60),\
+	("HB 3-24", 81, 40),\
+	("HB 4-1", 220, 120),\
+	("HB 4-2", 307, 165),\
+	("HB 4-3", 220, 120),\
+	("HB 4-5", 50, 20),\
+	("HB 4-6", 104, 55),\
+	("HB 4-7", 104, 55),\
+	("HB 4-8", 104, 50),\
+	("HB 4-9", 137, 60),\
+	("HB 4-10", 66, 30),\
+	("HB 4-11", 66, 30),\
+	("HB 4-12", 137, 60),\
+	("HB 4-13", 104, 50),\
+	("HB 4-14", 104, 50),\
+	("HB 4-15", 104, 50),\
+	("HB 4-16", 50, 25),\
+	("Consult Dept",500,500),\
+	("Informatorium Brown lab",80,78),\
+	("Informatorium SIT 1 lab",80,78),\
+	("Agric Annex 2-18",70,35),\
+	("Geography 1-2",100,50),\
+	("Geography 2-9",100,50),\
+	("TBA",600,600);\
+\
+\
+	INSERT INTO module\
+	VALUES\
+	("UPO112", "Academic orientation", 1, "First", 0),\
+	("ALL121", "Technology", 1, "Second", 0),\
+	("AIM101", "management", 1, "First", 0),\
+	("AIM111", "management", 1, "First", 0),\
+	("AIM121", "management", 1, "Second", 0),\
+	("COS132","Imperative Programming", 1, "First", 0),\
+	("COS151","Introduction to Computer Science", 1, "First", 0),\
+	("COS110","Program Design: Introduction", 1, "Second", 0),\
+	("COS122","Operating Systems", 1, "Second", 0),\
+	("WTW134", "Calculus", 1, "First", 0),\
+	("WTW115", "Discrete Structures", 1, "First", 0),\
+	("JCP202", "Community-based Project", 2, "Year", 0),\
+	("COS210", "Theoretical Computer Science", 2, "First", 0),\
+	("COS212", "Data Structures & Algorithms", 2, "First", 0),\
+	("COS214", "Software modelling", 2, "Second", 0),\
+	("COS216", "Netcentric Computer Systems", 2, "First", 0),\
+	("COS221", "Introduction to Database systems", 2, "First", 0),\
+	("COS226", "Concurrent Systems", 2, "Second", 0),\
+	("COS284", "Computer Organisation and Architecture", 2, "Second", 0),\
+	("WTW285", "Introduction to Database systems", 2, "Second", 0),\
+	("COS301", "Software Engineering", 3, "Year", 0),\
+	("COS330", "Computer security & ethics", 3, "Second", 0),\
+	("COS332", "Computer Networks", 3, "First", 0),\
+	("IMY310", "Multimedia '96 Human Computer Interaction", 3, "First", 0),\
+	("WTW146", "Linear algebra", 1, "Second", 0),\
+	("WTW148", "Calculus", 1, "Second", 0),\
+	("WTW152", "Mathematical modelling", 1, "First", 0),\
+	("STK110", "Statistics", 1, "First", 0),\
+	("STC122", "Statistics", 1, "Second", 0),\
+	("STK210", "Statistics", 2, "First", 0),\
+	("STK220", "Statistics", 2, "Second", 0),\
+	("WST212", "Application in Data Science", 1, "First", 0),\
+	("COS314", "Artificial Intelligence", 3, "First", 0),\
+	("COS326", "Database systems", 3, "Second", 0),\
+	("STK353", "The science of data analytics", 3, "Second", 0),\
+	("BME120", "Biometry", 1, "Second", 0), \
+	("BOT161", "Plant Biology", 1, "Second", 0), \
+	("GTS161", "Plant Biology", 1, "Second", 0), \
+	("MBY161", "Introduction to Microbiology", 1, "Second", 0), \
+	("MLB111", "Plant Biology", 1, "First", 0), \
+	("GTS251", "Molecular Genetics", 2, "First", 0), \
+	("GTS261", "Genetic Diversity and Evolution", 2, "Second", 0), \
+	("MBY251", "Bacteriology", 2, "First", 0), \
+	("MBY261", "Mycology", 2, "Second", 0), \
+	("COS344", "Computer Graphics", 3, "Second", 0), \
+	("GTS354", "Genome evolution and phylogenetics", 3, "First", 0), \
+	("GTS367", "Population and evolutionary genetics", 3, "First", 0), \
+	("BTC361", "Plant genetics and crop biotechnology", 3, "Second", 0),\
+	("GGY156", "Aspects of Human Geography", 1, "First", 0),\
+	("ENV101", "Introduction to Environmental Sciences", 1, "First", 0),\
+	("GGY166", "Southern African Geomorphology", 1, "Second", 0),\
+	("GMC110", "Cartography", 1, "Second", 0),\
+	("GGY283", "Introductory GIS", 2, "First", 0),\
+	("GIS220", "Geographical Data Analysis", 2, "Second", 0),\
+	("GMA220", "Remote Sensing", 2, "First", 0),\
+	("GIS310", "Geographic Information Systems", 3, "First", 0), \
+	("GIS320", "Spatial Analysis", 3, "Second", 0),\
+	("BEM120", "Marketing management", 1, "Second", 0),\
+	("OBS114", "Business Management", 1, "First", 0),\
+	("OBS124", "Business Management", 1, "Second", 0),\
+	("BEM212", "Consumer behaviour", 2, "First", 0),\
+	("FIL251", "philosophy", 2, "Year", 0),\
+	("OBS210", "Business Management: Logistics Management", 2, "First", 0),\
+	("OBS220", "Business mangement: Project management", 2, "Second", 0),\
+	("OBS359", "International Business Management", 3, "First", 0),\
+	("OBS369", "International Financial Management", 3, "Second", 0),\
+	("OBS310", "Human Resource Management", 3, "First", 0),\
+	("OBS320", "Business Management", 3, "Second", 0),\
+	("KRG110", "Commercial Law", 1, "First", 0),\
+	("KRG120", "Commercial Law", 1, "Second", 0),\
+	("KRM110", "Criminology", 1, "First", 0),\
+	("KRM120", "Criminology", 1, "Second", 0),\
+	("KRG200", "Commercial Law", 2, "Year", 0),\
+	("KRM210", "Criminology", 2, "First", 0),\
+	("KRM220", "Criminology", 2, "Second", 0),\
+	("KRM310", "Criminology", 3, "First", 0),\
+	("KRM320", "Criminology", 3, "Second", 0),\
+	("KUB420", "Cyber Law", 3, "Second", 0),\
+	("MGS100", "Musicology", 1, "Year", 0),\
+	("MCS200", "Music technology", 1, "Year", 0),\
+	("MCS302", "Music technology", 2, "Year", 0),\
+	("MCS402", "Music technology", 3, "Year", 0),\
+	("INF154", "Informatics", 1, "First", 0),\
+	("INF164", "Informatics", 1, "Second", 0),\
+	("INF171", "Informatics", 1, "Year", 0),\
+	("INF272", "Informatics", 2, "Year", 0),\
+	("IMY210", "Multimedia '96 Advanced Markup Language (1)", 2, "First", 0),\
+	("IMY220", "Multimedia '96 Advanced Markup Language (2)", 2, "Second", 0),\
+	("INF354", "Informatics", 3, "First", 0),\
+	("COS333", "Programming Languages", 3, "Second", 0);\
+\
+	INSERT INTO lecture(module_Code, l_Group, lesson, l_day, l_Time, venue_Name)\
+	VALUES\
+		("ALL121", "G01", "1", "Monday", "09:30 - 10:20", "HB 4-14"),\
+		("ALL121", "G01", "2", "Thursday", "09:30 - 10:20", "HB 4-14"),\
+		("ALL121", "G02", "1", "Monday", "09:30 - 10:20", "HB 4-15"),\
+		("ALL121", "G02", "2", "Thursday", "09:30 - 10:20", "HB 4-15"),\
+		("ALL121", "G03", "1", "Tuesday", "08:30 - 09:20", "HB 4-12"),\
+		("ALL121", "G03", "2", "Thursday", "08:30 - 09:20", "HB 4-14"),\
+		("ALL121", "G04", "1", "Tuesday", "08:30 - 09:20", "HB 4-14"),\
+		("ALL121", "G04", "2", "Thursday", "08:30 - 09:20", "HB 4-12"),  \
+		("ALL121", "G05", "1", "Monday", "07:30 - 08:20", "HB 4-14"),\
+		("ALL121", "G05", "2", "Wednesday", "09:30 - 10:20", "HB 4-14"),\
+		("ALL121", "G06", "1", "Tuesday", "09:30 - 10:20", "HB 4-3"),\
+		("ALL121", "G06", "2", "Friday", "13:30 - 14:20", "HB 3-15"),\
+		("ALL121", "G07", "1", "Tuesday", "09:30 - 10:20", "HB 4-15"),\
+		("ALL121", "G07", "2", "Friday", "13:30 - 14:20", "HB 4-9"),\
+		("AIM101", "G01", "1", "Friday", "14:30 - 16:20", "Consult Dept"),  \
+		("AIM111", "G01", "1", "Tuesday", "11:30 - 13:20", "Consult Dept"),\
+		("AIM121", "G01", "1", "Tuesday", "07:30 - 09:20", "Consult Dept"), \
+		("COS132", "G01", "2", "Tuesday", "07:30 - 08:20", "Centenary 4"),\
+		("COS132", "G01", "3", "Wednesday", "11:30 - 12:20", "Centenary 3"),  \
+		("COS132", "G01", "4", "Thursday", "13:30 - 14:20", "Centenary 2"),\
+		("COS132", "G02", "1", "Monday", "13:30 - 14:20", "IT 4-1"),\
+		("COS132", "G02", "2", "Tuesday", "12:30 - 13:20", "Centenary 2"),\
+		("COS132", "G02", "3", "Wednesday", "13:30 - 14:20", "Centenary 3"),  \
+		("COS132", "G02", "4", "Thursday", "11:30 - 12:20", "Centenary 2"),\
+		("COS132", "G03", "1", "Monday", "11:30 - 12:20", "EMS 4-150"),\
+		("COS132", "G03", "2", "Tuesday", "10:30 - 11:20", "EMS 4-150"),\
+		("COS132", "G03", "3", "Wednesday", "11:30 - 12:20", "IT 4-4"),\
+		("COS132", "G03", "4", "Thursday", "08:30 - 09:20", "IT 4-4"),\
+		("COS151", "G01", "1", "Monday", "08:30 - 09:20", "Thuto 1-2"),\
+		("COS151", "G01", "2", "Thursday", "16:30 - 17:20", "AE du Toit Auditorium"), \
+		("COS110", "G01",  "3", "Friday", "07:30 - 08:20", "Centenary 3"),\
+		("COS122", "G01", "1", "Monday", "09:30 - 10:20", "Thuto 3-2"),\
+		("COS122", "G01", "2", "Tuesday", "13:30 - 14:20", "Van Der Bijl Hall"),\
+		("COS122", "G01", "3", "Wednesday", "11:30 - 12:20", "Centenary 1"),\
+		("COS122", "G02", "2", "Wednesday", "09:30 - 10:20", "Centenary 3"),\
+		("COS122", "G02", "3", "Thursday", "15:30 - 16:20", "Centenary 3"),\
+		("WTW115", "G01", "1", "Monday", "10:30 - 11:20", "Thuto 3-1"),\
+		("WTW115", "G02", "1", "Monday", "07:30 - 08:20", "HB 4-2"),\
+		("WTW115", "G02", "2", "Wednesday", "12:30 - 13:20", "Centenary 5"),\
+		("COS210", "G01", "1", "Monday", "11:30 - 12:20", "IT 2-26"),\
+		("COS210", "G01", "2", "Wednesday", "08:30 - 09:20", "EMS 4-150"), \
+		("COS212", "G01", "1", "Monday", "16:30 - 17:20", "AE du Toit Auditorium"),\
+		("COS212", "G01", "2", "Tuesday", "07:30 - 08:20", "Louw Hall"),\
+		("COS212", "G01", "3", "Wednesday", "09:30 - 10:20", "Louw Hall"), \
+		("COS212", "G01", "4", "Thursday", "16:30 - 17:20", "Louw Hall"),\
+		("COS214", "G01", "1", "Monday", "08:30 - 09:20", "IT 2-26"),\
+		("COS214", "G01", "2", "Tuesday", "10:30 - 11:20", "IT 4-4"), \
+		("COS214", "G01", "3", "Thursday", "07:30 - 08:20", "HB 4-1"),\
+		("COS214", "G01", "4", "Friday", "12:30 - 13:20", "IT 2-26"),\
+		("COS216", "G01", "1", "Monday", "08:30 - 09:20", "IT 2-26"),\
+		("COS216", "G01", "2", "Tuesday", "12:30 - 13:20", "IT 4-4"),  \
+		("COS216", "G01", "3", "Wednesday", "10:30 - 11:20", "IT 4-4"),\
+		("COS216", "G01", "4", "Thursday", "09:30 - 10:20", "IT 2-26"),\
+		("COS221", "G01", "1", "Monday", "15:30 - 16:20", "IT 2-26"),\
+		("COS221", "G01", "2", "Wednesday", "07:30 - 08:20", "IT 2-26"),  \
+		("COS221", "G01", "3", "Thursday", "11:30 - 12:20", "IT 4-4"),\
+		("COS221", "G01", "1", "Monday", "07:30 - 08:20", "EMS 4-151"),\
+		("COS226", "G01", "2", "Tuesday", "14:30 - 15:20", "EMS 4-151"),  \
+		("COS226", "G01", "4", "Friday", "15:30 - 16:20", "EMS 4-151"),\
+		("COS284", "G01", "1", "Monday", "10:30 - 11:20", "IT 2-26"),\
+		("COS284", "G01", "2", "Tuesday", "07:30 - 08:20", "IT 4-4"),  \
+		("COS284", "G01", "4", "Friday", "13:30 - 14:20", "IT 4-1"),\
+		("WTW285", "G01", "1", "Monday", "11:30 - 12:20", "IT 2-23"),\
+		("WTW285", "G01", "1", "Monday", "11:30 - 12:20", "IT 2-25"),\
+		("COS301", "G01", "2", "Friday", "10:30 - 11:20", "IT 4-3"),  \
+		("COS330", "G01", "1", "Monday", "07:30 - 08:20", "IT 2-26"),\
+		("COS330", "G01", "2", "Thursday", "07:30 - 08:20", "IT 4-4"),  \
+		("COS332", "G01", "1", "Monday", "12:30 - 13:20", "IT 4-1"),\
+		("COS332", "G01", "2", "Wednesday", "15:30 - 16:20", "IT 4-4"), \
+		("IMY310", "G01", "1", "Monday", "09:30 - 10:20", "HB 3-23"),\
+		("IMY310", "G01", "3", "Thursday", "12:30 - 13:20", "HB 4-13"),  \
+		("WTW146", "G01", "2", "Friday", "07:30 - 08:20", "Centenary 2"), \
+		("WTW148", "G01", "1", "Monday", "12:30 - 13:20", "IT 4-1"),\
+		("WTW148", "G01", "2", "Wednesday", "08:30 - 09:20", "Centenary 2"), \
+		("WTW152", "G01", "1", "Monday", "12:30 - 13:20", "Centenary 5"),\
+		("WTW152", "G01", "2", "Wednesday", "11:30 - 12:20", "Centenary 6"),  \
+		("WTW152", "G01", "1", "Monday", "09:30 - 10:20", "Centenary 6"),\
+		("WTW152", "G01", "2", "Wednesday", "07:30 - 08:20", "Centenary 1"),\
+		("STC122", "G01", "1", "Monday", "14:30 - 15:20", "Thuto 1-1"),\
+		("STC122", "G01", "2", "Tuesday", "11:30 - 13:20", "Thuto 1-1"),\
+\
+		("STK110", "G01", "1", "Monday", "14:30-15:30", "Thuto 1-1"),\
+		("STK110", "G01", "2", "Tuesday", "11:30-12:30", "Thuto 1-2"),\
+		("STK110", "G01", "3", "Thursday", "14:30-15:30", "Thuto 3-1"),\
+		("STK110", "G02", "1", "Monday", "14:30-15:30", "IT 4-1"),\
+		("STK110", "G02", "2", "Tuesday", "11:30-12:30", "IT 2-23"),\
+		("STK110", "G02", "3", "Thursday", "14:30-15:30", "IT 2-23"),\
+		("STK110", "G03", "1", "Monday", "11:30-12:30", "Centenary 3"),\
+		("STK110", "G03", "2", "Tuesday", "09:30-10:30", "Centenary 3"),\
+		("STK110", "G03", "3", "Wednesday", "07:30-08:30", "Centenary 5"),\
+		("STK110", "G04", "1", "Monday", "16:30-17:30", "Thuto 3-1"),\
+		("STK110", "G04", "2", "Wednesday", "08:30-09:30", "Thuto 1-2"),\
+		("STK110", "G04", "3", "Thursday", "10:30-11:30", "Thuto 3-1"),\
+\
+		("STK210", "G01", "2", "Thursday", "08:30 - 09:20", "IT 2-23"), \
+		("STK210", "G01", "3", "Friday", "08:30 - 09:20", "IT 2-23"), \
+		("STK220", "G01", "1", "Tuesday", "08:30 - 09:20", "EMS 4-152"),  \
+		("STK220", "G01", "2", "Wednesday", "08:30 - 09:20", "EMS 4-152"), \
+		("STK220", "G01", "3", "Friday", "08:30 - 09:20", "EMS 4-152"), \
+		("WST212", "G01", "1", "Tuesday", "11:30 - 12:20", "Van Der Bijl Hall"),\
+		("WST212", "G01", "2", "Thursday", "09:30 - 10:20", "EMS 4-152"),  \
+		("COS314", "G01", "1", "Tuesday", "08:30 - 09:20", "IT 4-2"),\
+		("COS314", "G01", "2", "Wednesday", "10:30 - 11:20", "IT 2-25"),  \
+		("COS326", "G01", "1", "Tuesday", "12:30 - 13:20", "IT 4-2"),\
+		("COS326", "G01", "2", "Wednesday", "13:30 - 14:20", "IT 2-24"), \
+		("STK353", "G01", "1", "Monday", "07:30 - 08:20", "IT 4-3"),\
+		("STK353", "G01", "2", "Wednesday", "15:30 - 16:20", "IT 4-3"),  \
+		("STK353", "G01", "3", "Thursday", "11:30 - 12:20", "Informatorium Brown lab"),\
+		("STK353", "G01", "3", "Thursday", "11:30 - 12:20", "Informatorium SIT 1 lab"), \
+		("BME120", "G01", "1", "Monday", "08:30 - 09:20", "Thuto 1-2"),\
+		("BME120", "G01", "2", "Tuesday", "08:30 - 09:20", "Thuto 1-2"),  \
+		("BME120", "G01", "3", "Wednesday", "09:30 - 10:20", "Thuto 1-2"),\
+		("BME120", "G01", "4", "Friday", "11:30 - 12:20", "Thuto 3-1"), \
+		("BME120", "G02", "1", "Monday", "12:30 - 13:20", "Thuto 1-1"),\
+		("BME120", "G02", "2", "Tuesday", "09:30 - 10:20", "Thuto 1-1"),\
+		("BME120", "G02", "3", "Wednesday", "08:30 - 09:20", "Thuto 1-1"),\
+		("BME120", "G02", "4", "Friday", "12:30 - 13:20", "Thuto 1-1"), \
+		("BME120", "G03", "1", "Monday", "10:30 - 11:20", "AE du Toit Auditorium"),\
+		("BME120", "G03", "2", "Tuesday", "07:30 - 08:20", "Large Chemistry"),\
+		("BME120", "G03", "3", "Thursday", "09:30 - 10:20", "Large Chemistry"),\
+		("BME120", "G03", "4", "Friday", "07:30 - 08:20", "Large Chemistry"), \
+		("BOT161", "G01", "1", "Monday", "07:30 - 08:20", "Louw Hall"),\
+		("BOT161", "G01", "2", "Tuesday", "08:30 - 09:20", "IT 4-4"),  \
+		("BOT161", "G02", "1", "Thursday", "09:30 - 10:20", "Thuto 1-1"),\
+		("BOT161", "G02", "2", "Friday", "13:30 - 14:20", "Thuto 1-1"), \
+		("GTS161", "G01", "1", "Monday", "11:30 - 12:20", "Thuto 1-1"),\
+		("GTS161", "G01", "2", "Tuesday", "07:30 - 08:20", "Roos Hall"),  \
+		("GTS161", "G02", "1", "Monday", "09:30 - 10:20", "Thuto 3-1"),\
+		("GTS161", "G02", "2", "Tuesday", "08:30 - 09:20", "Roos Hall"), \
+		("MBY161", "G01", "1", "Thursday", "13:30 - 14:20", "Thuto 1-1"),\
+		("MBY161", "G01", "2", "Friday", "12:30 - 13:20", "Roos Hall"),  \
+		("MBY161", "G02", "1", "Thursday", "08:30 - 09:20", "Thuto 3-1"),\
+		("MBY161", "G02", "2", "Friday", "10:30 - 11:20", "Thuto 1-1"), \
+		("MLB111", "G01", "1", "Monday", "10:30 - 11:20", "Thuto 1-2"),  \
+		("MLB111", "G01", "3", "Wednesday", "07:30 - 08:20", "Roos Hall"), \
+		("MLB111", "G01", "4", "Friday", "09:30 - 10:20", "Thuto 1-1"),\
+		("MLB111", "G02", "1", "Monday", "07:30 - 08:20", "Roos Hall"),  \
+		("MLB111", "G02", "2", "Tuesday", "08:30 - 09:20", "Roos Hall"),\
+		("MLB111", "G02", "3", "Wednesday", "09:30 - 10:20", "Roos Hall"), \
+		("MLB111", "G02", "4", "Friday", "11:30 - 12:20", "Roos Hall"),\
+		("MLB111", "G03", "1", "Monday", "09:30 - 10:20", "Thuto 1-2"),  \
+		("MLB111", "G03", "3", "Wednesday", "08:30 - 09:20", "Roos Hall"), \
+		("MLB111", "G03", "4", "Friday", "08:30 - 09:20", "Thuto 1-1"), \
+		("WTW134", "G01", "1", "Monday", "13:30 - 14:20", "IT 4-5"),  \
+		("WTW134", "G01", "2", "Wednesday", "09:30 - 10:20", "IT 2-23"),\
+		("WTW134", "G01", "4", "Friday", "07:30 - 08:20", "IT 2-23"), \
+		("WTW134", "G02", "1", "Tuesday", "09:30 - 10:20", "HB 4-3"),  \
+		("WTW134", "G02", "2", "Wednesday", "09:30 - 10:20", "Centenary 4"),\
+		("WTW134", "G02", "4", "Friday", "07:30 - 08:20", "IT 4-4"), \
+		("WTW134", "G03", "1", "Monday", "08:30 - 09:20", "Thuto 3-1"),  \
+		("WTW134", "G03", "2", "Tuesday", "09:30 - 10:20", "Thuto 3-2"),\
+		("WTW134", "G03", "3", "Wednesday", "08:30 - 09:20", "Thuto 1-1"), \
+		("WTW134", "G03", "4", "Friday", "07:30 - 08:20", "Thuto 1-2"), \
+		("WTW134", "G03", "2", "Wednesday", "13:30 - 14:20", "AE Annex"),\
+		("WTW134", "G03", "3", "Thursday", "11:30 - 12:20", "Centenary 6"), \
+		("WTW134", "G03", "4", "Friday", "12:30 - 13:20", "HB 4-2"), \
+		("GTS251", "G01", "1", "Monday", "07:30 - 08:20", "Thuto 1-1"),  \
+		("GTS251", "G01", "2", "Friday", "11:30 - 12:20", "Thuto 1-1"),\
+		("GTS261", "G01", "1", "Monday", "12:30 - 13:20", "Thuto 1-2"),  \
+		("GTS261", "G01", "1", "Monday", "12:30 - 13:20", "Large Chemistry"),  \
+		("MBY251", "G01", "2", "Tuesday", "08:30 - 09:20", "Thuto 1-1"),\
+		("MBY261", "G01", "1", "Monday", "16:30 - 17:20", "Centenary 5"),  \
+		("MBY261", "G01", "2", "Wednesday", "08:30 - 09:20", "Large Chemistry"),\
+		("COS344", "G01", "1", "Monday", "07:30 - 08:20", "IT 4-2"),  \
+		("COS344", "G01", "2", "Friday", "08:30 - 09:20", "IT 4-4"),\
+		("GTS354", "G01", "2", "Wednesday", "09:30 - 10:20", "Thuto 3-1"), \
+		("GTS354", "G01", "3", "Friday", "14:30 - 15:20", "Louw Hall"), \
+		("GTS367", "G01", "1", "Monday", "09:30 - 10:20", "IT 2-26"), \
+		("GTS367", "G01", "1", "Monday", "14:30 - 15:20", "Agric Annex 2-18"), \
+		("BTC361", "G01", "2", "Friday", "13:30 - 14:20", "Agric Annex 2-18"),\
+		("GGY156", "G01", "1", "Monday", "12:30 - 13:20", "Te Water Hall"),  \
+		("GGY156", "G01", "3", "Friday", "11:30 - 12:20", "Te Water Hall"), \
+		("ENV101", "G01", "1", "Monday", "12:30 - 13:20", "Te Water Hall"),  \
+		("ENV101", "G01", "2", "Wednesday", "14:30 - 15:20", "Muller Hall"), \
+		("GGY166", "G01", "1", "Monday", "10:30 - 11:20", "AE Annex"),  \
+		("GGY166", "G01", "2", "Wednesday", "07:30 - 08:20", "AE Annex"), \
+		("GGY166", "G01", "3", "Thursday", "15:30 - 16:20", "AE Annex"), \
+		("GMC110", "G01", "1", "Tuesday", "08:30 - 09:20", "HB 3-23"),  \
+		("GMC110", "G01", "2", "Thursday", "08:30 - 09:20", "HB 4-8"), \
+		("GMC110", "G01", "3", "Friday", "10:30 - 11:20", "HB 3-23"), \
+		("GGY283", "G01", "1", "Monday", "10:30 - 11:20", "HB 4-14"),  \
+		("GGY283", "G01", "2", "Thursday", "08:30 - 09:20", "HB 4-14"),\
+		("GIS220", "G01", "1", "Monday", "09:30 - 10:20", "Geography 1-2"),  \
+		("GMA220", "G01", "1", "Monday", "09:30 - 10:20", "IT 2-25"),  \
+		("GMA220", "G01", "2", "Wednesday", "07:30 - 08:20", "HB 3-14"),\
+		("GIS310", "G01", "1", "Monday", "11:30 - 12:20", "Geography 1-2"),  \
+		("GIS310", "G01", "2", "Wednesday", "09:30 - 10:20", "Geography 1-2"),\
+		("GIS320", "G01", "1", "Monday", "10:30 - 11:20", "Geography 2-9"),  \
+		("GIS320", "G01", "2", "Thursday", "08:30 - 09:20", "Geography 2-9"),\
+		("BEM120", "G01", "1", "Tuesday", "08:30 - 09:20", "Thuto 3-2"),  \
+		("BEM120", "G01", "3", "Thursday", "12:30 - 13:20", "Thuto 3-2"),\
+		("BEM120", "G02", "1", "Monday", "13:30 - 14:20", "Large Chemistry"),  \
+		("BEM120", "G02", "2", "Wednesday", "12:30 - 13:20", "Thuto 3-2"),\
+		("BEM120", "G02", "3", "Thursday", "11:30 - 12:20", "Thuto 3-2"),\
+		("OBS114", "G01", "1", "Tuesday", "10:30 - 11:20", "HB 4-3"),  \
+		("OBS114", "G01", "3", "Friday", "15:30 - 16:20", "HB 4-1"), \
+		("OBS114", "G02", "2", "Wednesday", "13:30 - 14:20", "HB 4-1"), \
+		("OBS114", "G03", "1", "Tuesday", "09:30 - 10:20", "Muller Hall"), \
+		("OBS114", "G03", "2", "Wednesday", "13:30 - 14:20", "HB 4-3"), \
+		("OBS114", "G03", "3", "Friday", "12:30 - 13:20", "Te Water Hall"), \
+		("OBS124", "G01", "1", "Monday", "10:30 - 11:20", "Law building 1-54"),  \
+		("OBS124", "G01", "2", "Wednesday", "08:30 - 09:20", "Van Der Bijl Hall"),\
+		("OBS124", "G01", "3", "Friday", "09:30 - 10:20", "Centenary 5"), \
+		("OBS124", "G02", "1", "Monday", "14:30 - 15:20", "IT 2-26"),  \
+		("OBS124", "G02", "2", "Tuesday", "08:30 - 09:20", "EMS 4-151"), \
+		("OBS124", "G02", "3", "Friday", "08:30 - 09:20", "Te Water Hall"), \
+		("OBS124", "G03", "2", "Tuesday", "08:30 - 09:20", "Centenary 1"), \
+		("OBS124", "G03", "3", "Friday", "09:30 - 10:20", "Roos Hall"),\
+		("BEM212", "G01", "1", "Monday", "14:30 - 15:20", "Van Der Bijl Hall"),  \
+		("BEM212", "G01", "2", "Tuesday", "08:30 - 09:20", "HB 4-1"), \
+		("BEM212", "G01", "3", "Thursday", "12:30 - 13:20", "Te Water Hall"),\
+		("BEM212", "G02", "1", "Monday", "07:30 - 08:20", "Louw Hall"),\
+		("BEM212", "G02", "2", "Wednesday", "14:30 - 16:20", "Louw Hall"),\
+		("FIL251", "G01/Q2", "1", "Monday", "14:30 - 15:20", "IT 2-26"),  \
+		("FIL251", "G01/Q2", "2", "Tuesday", "11:30 - 12:20", "EMS 4-150"),\
+		("FIL251", "G02/Q2", "1", "Monday", "15:30 - 16:20", "Van Der Bijl Hall"), \
+		("FIL251", "G02/Q2", "2", "Tuesday", "15:30 - 16:20", "Roos Hall"),\
+		("FIL251", "G03/Q3", "1", "Monday", "15:30 - 16:20", "Centenary 1"),  \
+		("FIL251", "G03/Q3", "2", "Wednesday", "14:30 - 15:20", "Louw Hall"),\
+		("FIL251", "G04/Q3", "1", "Tuesday", "07:30 - 08:20", "Thuto 1-2"),  \
+		("FIL251", "G04/Q3", "2", "Wednesday", "16:30 - 17:20", "Roos Hall"),\
+		("FIL251", "G05/Q4", "2", "Tuesday", "12:30 - 13:20", "EMS 4-150"),\
+		("FIL251", "G06/Q4", "1", "Monday", "07:30 - 08:20", "HB 4-3"),  \
+		("FIL251", "G06/Q4", "2", "Tuesday", "07:30 - 08:20", "HB 3-23"),\
+		("OBS210", "G01", "2", "Wednesday", "15:30 - 16:20", "Law Building 1-54"), \
+		("OBS210", "G01", "3", "Friday", "08:30 - 09:20", "Law Building 1-54"), \
+		("OBS210", "G02", "1", "Tuesday", "14:30 - 15:20", "Van Der Bijl Hall"), \
+		("OBS210", "G02", "2", "Thursday", "07:30 - 08:20", "Centenary 3"), \
+		("OBS210", "G02", "3", "Friday", "07:30 - 08:20", "HB 4-2"), \
+		("OBS210", "G03", "1", "Monday", "12:30 - 13:20", "Thuto 3-2"),  \
+		("OBS220", "G01", "1", "Tuesday", "13:30 - 14:20", "Centenary 2"),  \
+		("OBS220", "G01", "2", "Wednesday", "10:30 - 11:20", "Centenary 5"), \
+		("OBS220", "G02", "1", "Monday", "12:30 - 13:20", "Large Chemistry"),\
+		("OBS220", "G02", "3", "Friday", "07:30 - 08:20", "EMS 4-152"), \
+		("OBS220", "G03", "1", "Monday", "13:30 - 14:20", "Thuto 1-2"),  \
+		("OBS220", "G03", "2", "Wednesday", "14:30 - 15:20", "Thuto 1-2"), \
+		("OBS359", "G01", "1", "Monday", "14:30 - 15:20", "Louw Hall"),  \
+		("OBS359", "G01", "2", "Tuesday", "12:30 - 13:20", "Louw Hall"), \
+		("OBS359", "G01", "3", "Thursday", "16:30 - 17:20", "Roos Hall"),\
+		("OBS369", "G01", "1", "Monday", "13:30 - 14:20", "EMS 4-152"),  \
+		("OBS369", "G01", "2", "Wednesday", "11:30 - 12:20", "IT 2-23"), \
+		("OBS369", "G01", "3", "Thursday", "09:30 - 10:20", "EMS 4-152"),\
+		("OBS310", "G01", "1", "Tuesday", "09:30 - 10:20", "IT 2-23"),  \
+		("OBS310", "G01", "2", "Thursday", "11:30 - 12:20", "IT 2-23"), \
+		("OBS310", "G01", "3", "Friday", "09:30 - 10:20", "Centenary 1"),\
+		("OBS310", "G02", "1", "Tuesday", "11:30 - 12:20", "Centenary 1"),  \
+		("OBS310", "G02", "2", "Thursday", "10:30 - 11:20", "IT 2-23"),\
+		("OBS310", "G02", "3", "Friday", "11:30 - 12:20", "Centenary 3"),\
+		("OBS320", "G01", "1", "Monday", "08:30 - 09:20", "AE du Toit Auditorium"),  \
+		("OBS320", "G01", "2", "Tuesday", "10:30 - 11:20", "AE du Toit Auditorium"), \
+		("OBS320", "G01", "3", "Friday", "13:30 - 14:20", "AE du Toit Auditorium"),\
+		("OBS320", "G02", "1", "Monday", "12:30 - 13:20", "IT 2-23"),  \
+		("OBS320", "G02", "2", "Wednesday", "07:30 - 08:20", "Centenary 6"),\
+		("OBS320", "G02", "3", "Friday", "12:30 - 13:20	", "EMS 4-152"),\
+		("KRG110", "G01", "1", "Monday", "10:30 - 11:20", "Thuto 3-2"),  \
+		("KRG110", "G01", "2", "Tuesday", "10:30 - 11:20", "Thuto 3-1"),\
+		("KRG110", "G02", "1", "Tuesday", "12:30 - 13:20", "Thuto 1-2"),  \
+		("KRG110", "G02", "2", "Wednesday", "14:30 - 15:20", "Thuto 3-2"),\
+		("KRG120", "G01", "2", "Wednesday", "08:30 - 09:20", "Thuto 3-2"),\
+		("KRG120", "G02", "1", "Monday", "10:30 - 11:20", "Louw Hall"),\
+		("KRG120", "G02", "2", "Thursday", "12:30 - 13:20", "Louw Hall"),\
+		("KRM110", "G01", "2", "Thursday", "16:30 - 17:20", "Thuto 1-1"),\
+		("KRM110", "G02", "1", "Tuesday", "10:30 - 11:20", "Thuto 3-2"),  \
+		("KRM110", "G02", "2", "Thursday", "15:30 - 16:20", "Thuto 1-1"),\
+		("KRM120", "G01", "1", "Tuesday", "09:30 - 10:20", "Roos Hall"),  \
+		("KRM120", "G01", "2", "Friday", "10:30 - 11:20", "Thuto 1-2"),\
+		("KRM120", "G02", "1", "Tuesday", "08:30 - 09:20", "Large Chemistry"), \
+		("KRM120", "G02", "2", "Friday", "09:30 - 10:20", "Thuto 3-1"),\
+		("KRG200", "G01", "1", "Monday", "16:30 - 17:20", "Centenary 1"),  \
+		("KRG200", "G02", "1", "Monday", "14:30 - 16:20", "Centenary 2"),  \
+		("KRG200", "G02", "2", "Tuesday", "14:30 - 16:20", "Centenary 4"),\
+		("KRM210", "G01", "1", "Tuesday", "08:30 - 09:20", "Thuto 1-2"),  \
+		("KRM210", "G01", "2", "Friday", "13:30 - 14:20", "Thuto 1-2"),\
+		("KRM220", "G01", "1", "Wednesday", "10:30 - 11:20", "Thuto 3-1"),  \
+		("KRM220", "G01", "2", "Friday", "11:30 - 12:20", "Roos Hall"),\
+		("KRM310", "G02", "1", "Tuesday", "11:30 - 12:20", "AE du Toit Auditorium"),\
+		("KRM310", "G02", "2", "Thursday", "11:30 - 12:20", "Louw Hall"),\
+		("KRM320", "G02", "1", "Tuesday", "13:30 - 14:20", "Thuto 1-2"),  \
+		("KRM320", "G02", "2", "Thursday", "14:30 - 15:20", "Thuto 3-1"),\
+		("KUB420", "G01", "1", "Tuesday", "09:30 - 11:20", "HB 4-8"),  \
+		("MGS100", "G01", "1", "Monday", "10:30 - 11:20", "Consult Dept"),  \
+		("MGS100", "G01", "2", "Tuesday", "14:30 - 15:20", "Consult Dept"),\
+		("MGS100", "G01", "3", "Thursday", "14:30 - 15:20", "Consult Dept"),\
+		("INF154", "G01", "1", "Thursday", "07:30 - 08:20", "Centenary 2"),  \
+		("INF154", "G02", "1", "Thursday", "11:30 - 12:20", "Centenary 4"),\
+		("INF164", "G01", "1", "Monday", "09:30 - 10:20", "Louw Hall"),  \
+		("INF171", "G01", "1", "Tuesday", "12:30 - 13:20", "Van Der Bijl Hall"), \
+		("INF171", "G02", "1", "Thursday", "09:30 - 10:20", "IT 2-23"),\
+		("INF171", "G01", "1", "Tuesday", "15:30 - 16:20", "Centenary 2"), \
+		("INF171", "G02", "1", "Wednesday", "15:30 - 16:20", "IT 4-1"),\
+		("INF272", "G01", "1", "Tuesday", "09:30 - 10:20", "Informatorium SIT 1 lab"),  \
+		("INF272", "G02", "1", "Tuesday", "12:30 - 13:20", "Informatorium SIT 1 lab"),\
+		("INF272", "G04", "1", "Wednesday", "08:30 - 09:20", "Informatorium Blue lab 1"),\
+		("IMY210", "G01", "2", "Friday", "08:30 - 09:20", "IT 2-26"),\
+		("IMY220", "G01", "1", "Tuesday", "08:30 - 09:20", "HB 4-9"),  \
+		("IMY220", "G01", "2", "Wednesday", "09:30 - 10:20", "HB 4-7"),\
+		("INF354", "G01", "1", "Thursday", "08:30 - 09:20", "Informatorium SIT 1 lab"), \
+		("INF354", "G02", "2", "Thursday", "14:30 - 15:20", "Informatorium SIT 1 lab"),\
+		("COS333", "G01", "1", "Monday", "15:30 - 16:20", "IT 4-3"), \
+		("COS333", "G01", "2", "Thursday", "13:30 - 14:20", "IT 4-3");\
+		\
+\
+	INSERT INTO student\
+	VALUES\
+	("19086688", "Zelu", "Tesema", 2, 0),\
+	("18080449", "Jia Hui", "Wang", 3, 0),\
+	("19894586", "Luca", "Azmanov", 2, 0),\
+	("18230842", "Keanu", "Swart", 3, 0),\
+	("20458957", "Keanu", "Reeves", 1, 0),\
+	("14059503", "Luke", "Gunn", 3, 0),\
+	("18283230", "Jarryd", "Bath", 3, 0),\
+	("19230213", "Kevin", "Cui", 3, 0),\
+	("20456789", "Simran", "Rathial", 3, 0),\
+	("19802938", "Nika", "Hattingh", 3, 0)//your own mock data \
+\
+\
+\
+	INSERT INTO student_Module(student_Number, module_Code, mark, stat)\
+	VALUES\
+		("18080449", "COS132", 57, "Passed"),\
+		("18080449", "COS151", 51, "Passed"),\
+		("18080449", "COS110", 72, "Passed"),\
+		("18080449", "COS122", 65, "Passed"),\
+		("18080449", "WTW134", 69, "Passed"),\
+		("18080449", "WTW115", 64, "Passed"),\
+		("18080449", "INF154", 92, "Passed"),\
+		("18080449", "INF164", 84, "Passed"),\
+		("18080449", "INF171", 75, "Passed"),\
+		("18080449", "UPO112", 100, "Passed"),\
+		("18080449", "AIM101", 70, "Passed"),\
+		("18080449", "ALL121", 52, "Passed"),\
+		("18080449", "COS212", 0, "Registered"),\
+		("18080449", "COS216", 0, "Registered"),\
+		("18080449", "COS210", 0, "Registered"),\
+		("18080449", "COS221", 0, "Registered"),\
+		("18080449", "COS214", 0, "Registered"),\
+		("18080449", "COS284", 0, "Registered"),\
+		("18080449", "COS226", 0, "Registered"),\
+		("18080449", "WTW285", 38, "Failed"),\
+		("18080449", "IMY210", 50, "Passed"),\
+		("18080449", "IMY220", 0, "Failed"),\
+		("18080449", "INF272", 67, "Passed"),\
+		("18080449", "JCP202", 97, "Passed"),\
+		("18080449", "IMY220", 0, "Registered"),\
+		("18080449", "WTW285", 0, "Registered"),\
+		\
+		("19086688", "COS132", 76, "Passed"),\
+		("19086688", "COS151", 64, "Passed"),\
+		("19086688", "COS110", 75, "Passed"),\
+		("19086688", "COS122", 68, "Passed"),\
+		("19086688", "WTW134", 96, "Passed"),\
+		("19086688", "WTW115", 92, "Passed"),\
+		("19086688", "WTW146", 98, "Passed"),\
+		("19086688", "WTW148", 78, "Passed"),\
+		("19086688", "STK110", 90, "Passed"),\
+		("19086688", "STC122", 84, "Passed"),\
+		("19086688", "UPO112", 100, "Passed"),\
+		("19086688", "AIM111", 98, "Passed"),\
+		("19086688", "AIM121", 89, "Passed"),\
+		("19086688", "ALL121", 60, "Passed"),\
+		("19086688", "COS212", 0, "Registered"),\
+		("19086688", "COS216", 0, "Registered"),\
+		("19086688", "COS210", 0, "Registered"),\
+		("19086688", "COS221", 0, "Registered"),\
+		("19086688", "COS214", 0, "Registered"),\
+		("19086688", "COS284", 0, "Registered"),\
+		("19086688", "COS226", 0, "Registered"),\
+		("19086688", "WTW285", 0, "Registered"),\
+		("19086688", "JCP202", 0, "Registered"),\
+		("19086688", "STK210", 0, "Registered"),\
+		("19086688", "STK220", 0, "Registered"),\
+		("19086688", "WST212", 0, "Registered"),\
+		\
+		("19894586", "COS132", 85, "Passed"),\
+		("19894586", "COS151", 72, "Passed"),\
+		("19894586", "COS110", 75, "Passed"),\
+		("19894586", "COS122", 72, "Passed"),\
+		("19894586", "WTW134", 96, "Passed"),\
+		("19894586", "WTW115", 92, "Passed"),\
+		("19894586", "WTW146", 77, "Passed"),\
+		("19894586", "WTW148", 78, "Passed"),\
+		("19894586", "STK110", 76, "Passed"),\
+		("19894586", "STC122", 75, "Passed"),\
+		("19894586", "UPO112", 100, "Passed"),\
+		("19894586", "AIM101", 67, "Passed"),\
+		("19894586", "ALL121", 60, "Passed"),\
+		("19894586", "COS212", 0, "Registered"),\
+		("19894586", "COS216", 0, "Registered"),\
+		("19894586", "COS210", 0, "Registered"),\
+		("19894586", "COS221", 0, "Registered"),\
+		("19894586", "COS214", 0, "Registered"),\
+		("19894586", "COS284", 0, "Registered"),\
+		("19894586", "COS226", 0, "Registered"),\
+		("19894586", "WTW285", 0, "Registered"),\
+		("19894586", "JCP202", 0, "Registered"),\
+		("19894586", "STK210", 0, "Registered"),\
+		("19894586", "STK220", 0, "Registered"),\
+		("19894586", "WST212", 0, "Registered"),\
+\
+		("18230842", "UPO112", 100, "Passed"),\
+		("18230842", "AIM111", 78, "Passed"),\
+		("18230842", "AIM121", 67, "Passed"),\
+		("18230842", "ALL121", 50, "Passed"),\
+		("18230842", "COS132", 60, "Passed"),\
+		("18230842", "COS151", 54, "Passed"),\
+		("18230842", "COS110", 65, "Passed"),\
+		("18230842", "COS122", 57, "Passed"),\
+		("18230842", "WTW134", 78, "Passed"),\
+		("18230842", "WTW115", 56, "Passed"),\
+		("18230842", "WTW146", 77, "Passed"),\
+		("18230842", "WTW148", 60, "Passed"),\
+		("18230842", "MGS100", 78, "Passed"),\
+		("18230842", "MCS200", 58, "Passed"),\
+		("18230842", "MCS302", 40, "Failed"),\
+		("18230842", "JCP202", 99, "Passed"),\
+		("18230842", "COS212", 68, "Passed"),\
+		("18230842", "COS216", 57, "Passed"),\
+		("18230842", "COS210", 67, "Passed"),\
+		("18230842", "COS221", 64, "Passed"),\
+		("18230842", "COS214", 70, "Passed"),\
+		("18230842", "COS284", 56, "Passed"),\
+		("18230842", "COS226", 72, "Passed"),\
+		("18230842", "WTW285", 46, "Failed"),\
+		("18230842", "WTW285", 0, "Registered"),\
+		("18230842", "COS301", 0, "Registered"),\
+		("18230842", "COS330", 0, "Registered"),\
+		("18230842", "COS332", 0, "Registered"),\
+		("18230842", "COS333", 0, "Registered"),\
+		("18230842", "IMY310", 0, "Registered"),\
+		("18230842", "MCS402", 0, "Registered"),\
+		("18230842", "COS314", 0, "Registered"),\
+		\
+		("20458957", "UPO112", 0, "Registered"),\
+		("20458957", "AIM111", 0, "Registered"),\
+		("20458957", "AIM121", 0, "Registered"),\
+		("20458957", "ALL121", 0, "Registered"),\
+		("20458957", "COS132", 0, "Registered"),\
+		("20458957", "COS151", 0, "Registered"),\
+		("20458957", "COS110", 0, "Registered"),\
+		("20458957", "COS122", 0, "Registered"),\
+		("20458957", "WTW134", 0, "Registered"),\
+		("20458957", "WTW115", 0, "Registered"),\
+		("20458957", "GGY156", 0, "Registered"),\
+		("20458957", "ENV101", 0, "Registered"),\
+		("20458957", "GGY166", 0, "Registered"),\
+		("20458957", "GMC110", 0, "Registered"),\
+		("20458957", "STK110", 0, "Registered"),\
+		("20458957", "WTW146", 0, "Registered"),\
+		\
+		("14059503", "JCP202", 99, "Passed"),\
+		("14059503", "UPO112", 100, "Passed"),\
+		("14059503", "AIM101", 78, "Passed"),\
+		("14059503", "ALL121", 50, "Passed"),\
+		("14059503", "COS132", 76, "Passed"),\
+		("14059503", "COS151", 78, "Passed"),\
+		("14059503", "COS110", 65, "Passed"),\
+		("14059503", "COS122", 60, "Passed"),\
+		("14059503", "WTW134", 97, "Passed"),\
+		("14059503", "WTW115", 98, "Passed"),\
+		("14059503", "WTW146", 99, "Passed"),\
+		("14059503", "BME120", 60, "Passed"),\
+		("14059503", "BOT161", 78, "Passed"),\
+		("14059503", "GTS161", 58, "Passed"),\
+		("14059503", "MBY161", 70, "Passed"),\
+		("14059503", "MLB111", 69, "Passed"),\
+		("14059503", "GTS251", 60, "Passed"),\
+		("14059503", "GTS261", 52, "Passed"),\
+		("14059503", "MBY251", 80, "Passed"),\
+		("14059503", "MBY261", 32, "Failed"),\
+		("14059503", "COS212", 68, "Passed"),\
+		("14059503", "COS216", 57, "Passed"),\
+		("14059503", "COS210", 67, "Passed"),\
+		("14059503", "COS221", 64, "Passed"),\
+		("14059503", "COS214", 50, "Passed"),\
+		("14059503", "COS284", 47, "Failed"),\
+		("14059503", "COS226", 72, "Passed"),\
+		("14059503", "WTW285", 76, "Passed"),\
+		("14059503", "COS301", 0, "Registered"),\
+		("14059503", "COS330", 0, "Registered"),\
+		("14059503", "COS332", 0, "Registered"),\
+		("14059503", "COS333", 0, "Registered"),\
+		("14059503", "IMY310", 0, "Registered"),\
+		("14059503", "COS314", 0, "Registered"),\
+		("14059503", "COS326", 0, "Registered"),\
+		("14059503", "COS344", 0, "Registered"),\
+		\
+		("18283230", "JCP202", 70, "Passed"),\
+		("18283230", "UPO112", 89, "Passed"),\
+		("18283230", "AIM101", 50, "Passed"),\
+		("18283230", "ALL121", 76, "Passed"),\
+		("18283230", "COS132", 65, "Passed"),\
+		("18283230", "COS151", 57, "Passed"),\
+		("18283230", "COS110", 65, "Passed"),\
+		("18283230", "COS122", 72, "Passed"),\
+		("18283230", "WTW134", 60, "Passed"),\
+		("18283230", "WTW115", 70, "Passed"),\
+		("18283230", "WTW146", 80, "Passed"),\
+		("18283230", "GGY156", 60, "Passed"),\
+		("18283230", "ENV101", 78, "Passed"),\
+		("18283230", "GGY166", 58, "Passed"),\
+		("18283230", "GMC110", 70, "Passed"),\
+		("18283230", "STK110", 69, "Passed"),\
+		("18283230", "GGY283", 60, "Passed"),\
+		("18283230", "GIS220", 52, "Passed"),\
+		("18283230", "GMA220", 80, "Passed"),\
+		("18283230", "COS212", 68, "Passed"),\
+		("18283230", "COS216", 57, "Passed"),\
+		("18283230", "COS210", 67, "Passed"),\
+		("18283230", "COS221", 64, "Passed"),\
+		("18283230", "COS214", 50, "Passed"),\
+		("18283230", "COS284", 47, "Passed"),\
+		("18283230", "COS226", 72, "Passed"),\
+		("18283230", "WTW285", 76, "Passed"),\
+		("18283230", "COS301", 0, "Registered"),\
+		("18283230", "COS330", 0, "Registered"),\
+		("18283230", "COS332", 0, "Registered"),\
+		("18283230", "COS333", 0, "Registered"),\
+		("18283230", "IMY310", 0, "Registered"),\
+		("18283230", "COS326", 0, "Registered"),\
+		("18283230", "COS344", 0, "Registered"),\
+		("18283230", "GIS310", 0, "Registered"),\
+		("18283230", "GIS320", 0, "Registered"),\
+		\
+		\
+		("19230213", "COS132", 49, "Failed"),\
+		("19230213", "COS151", 50, "Passed"),\
+		("19230213", "COS110", 0, "Failed"),\
+		("19230213", "COS122", 0, "Failed"),\
+		("19230213", "WTW134", 75, "Passed"),\
+		("19230213", "WTW115", 42, "Failed"),\
+		("19230213", "BEM120", 77, "Passed"),\
+		("19230213", "OBS114", 67, "Passed"),\
+		("19230213", "OBS124", 32, "Failed"),\
+		("19230213", "STK110", 10, "Failed"),\
+		("19230213", "UPO112", 20, "Failed"),\
+		("19230213", "AIM111", 32, "Failed"),\
+		("19230213", "AIM121", 0, "Failed"),\
+		("19230213", "ALL121", 21, "Failed"),\
+		("19230213", "COS132", 0, "Registered"),\
+		("19230213", "COS110", 0, "Registered"),\
+		("19230213", "COS122", 0, "Registered"),\
+		("19230213", "WTW115", 0, "Registered"),\
+		("19230213", "OBS124", 0, "Registered"),\
+		("19230213", "STK110", 0, "Registered"),\
+		("19230213", "UPO112", 0, "Registered"),\
+		("19230213", "AIM111", 0, "Registered"),\
+		("19230213", "AIM121", 0, "Registered"),\
+		("19230213", "ALL121", 0, "Registered"),\
+		\
+		("20456789", "UPO112", 0, "Registered"),\
+		("20456789", "AIM101", 0, "Registered"),\
+		("20456789", "ALL121", 0, "Registered"),\
+		("20456789", "COS132", 0, "Registered"),\
+		("20456789", "COS151", 0, "Registered"),\
+		("20456789", "COS110", 0, "Registered"),\
+		("20456789", "COS122", 0, "Registered"),\
+		("20456789", "WTW134", 0, "Registered"),\
+		("20456789", "WTW115", 0, "Registered"),\
+		("20456789", "KRG110", 0, "Registered"),\
+		("20456789", "KRG120", 0, "Registered"),\
+		("20456789", "KRM110", 0, "Registered"),\
+		("20456789", "KRM120", 0, "Registered"),\
+		\
+		("19802938", "COS132", 50, "Passed"),\
+		("19802938", "COS151", 62, "Passed"),\
+		("19802938", "COS110", 42, "Failed"),\
+		("19802938", "COS122", 66, "Passed"),\
+		("19802938", "WTW134", 78, "Passed"),\
+		("19802938", "WTW115", 42, "Failed"),\
+		("19802938", "KRG110", 77, "Passed"),\
+		("19802938", "KRG120", 32, "Failed"),\
+		("19802938", "KRM110", 76, "Passed"),\
+		("19802938", "KRM120", 22, "Failed"),\
+		("19802938", "UPO112", 67, "Passed"),\
+		("19802938", "AIM101", 70, "Passed"),\
+		("19802938", "ALL121", 60, "Passed"),\
+		("19802938", "COS110", 0, "Registered"),\
+		("19802938", "KRM120", 0, "Registered"),\
+		("19802938", "WTW115", 0, "Registered");\
+\
+	INSERT INTO assesment(assesment_Type,module_Code, assesment_Date, assesment_Time, venue_name)\
+	VALUES\
+	("Sem Test 1", "COS132", "2020-03-14", "07:30 - 09:30","Thuto 1-1"),\
+	("Sem Test 1", "COS132", "2020-03-14", "07:30 - 09:30","Thuto 1-2"),\
+	("Sem Test 1", "COS132", "2020-03-14", "07:30 - 09:30","Thuto 3-1"),\
+	("Sem Test 1", "COS151", "2020-03-04", "17:30 - 20:00","Centenary 1"),\
+	("Sem Test 1", "COS151", "2020-03-04", "17:30 - 20:00","Centenary 2"),\
+	("Sem Test 1", "COS151", "2020-03-04", "17:30 - 20:00","Centenary 3"),\
+	("Sem Test 1", "COS110", "2020-08-15", "07:30 - 09:30","Centenary 1"),\
+	("Sem Test 1", "COS110", "2020-08-15", "07:30 - 09:30","Centenary 2"),\
+	("Sem Test 1", "COS110", "2020-08-15", "07:30 - 09:30","Centenary 3"),\
+	("Sem Test 1", "COS110", "2020-08-15", "07:30 - 09:30","Centenary 4"),\
+	("Sem Test 1", "COS110", "2020-08-15", "07:30 - 09:30","Centenary 5"),\
+	("Sem Test 1", "COS122", "2020-08-22", "10:30 - 12:30","Centenary 1"),\
+	("Sem Test 1", "COS122", "2020-08-22", "10:30 - 12:30","Centenary 2"),\
+	("Sem Test 1", "COS122", "2020-08-22", "10:30 - 12:30","Centenary 3"),\
+	("Sem Test 1", "COS122", "2020-08-22", "10:30 - 12:30","Centenary 4"),\
+	("Sem Test 1", "COS122", "2020-08-22", "10:30 - 12:30","Centenary 5"),\
+	("Sem Test 1", "WTW115", "2020-03-18", "17:30 - 20:00","Thuto 1-1"),\
+	("Sem Test 1", "WTW115", "2020-03-18", "17:30 - 20:00","Thuto 1-2"),\
+	("Sem Test 1", "COS210", "2020-03-04", "17:30 - 20:00","Thuto 3-2"),\
+	("Sem Test 1", "COS212", "2020-03-14", "09:30 - 11:30","Centenary 1"),\
+	("Sem Test 1", "COS212", "2020-03-14", "09:30 - 11:30","Centenary 2"),\
+	("Sem Test 1", "COS212", "2020-03-14", "09:30 - 11:30","Centenary 3"),\
+	("Sem Test 1", "COS214", "2020-03-14", "17:30 - 20:00","Thuto 3-2"),\
+	("Sem Test 1", "COS216", "2020-03-05", "17:30 - 20:00","Centenary 1"),\
+	("Sem Test 1", "COS216", "2020-03-05", "17:30 - 20:00","Centenary 2"),\
+	("Sem Test 1", "COS221", "2020-03-16", "17:30 - 20:00","HB 3-24"),\
+	("Sem Test 1", "COS221", "2020-03-16", "17:30 - 20:00","IT 4-5"),\
+	("Sem Test 1", "COS226", "2020-08-13", "17:30 - 20:00","IT 4-1"),\
+	("Sem Test 1", "COS226", "2020-08-13", "17:30 - 20:00","IT 4-5"),\
+	("Sem Test 1", "COS284", "2020-08-17", "17:30 - 20:00","AE du Toit Auditorium"),\
+	("Sem Test 1", "WTW285", "2020-08-24", "17:30 - 20:00","Centenary 1"),\
+	("Sem Test 1", "WTW285", "2020-08-24", "17:30 - 20:00","Centenary 2"),\
+	("Sem Test 1", "COS301", "2020-04-02", "17:30 - 20:00", "IT 2-23"),\
+	("Sem Test 1", "COS330", "2020-09-09", "17:30 - 20:00", "HB 4-2"),\
+	("Sem Test 1", "COS332", "2020-04-17", "17:30 - 20:00", "EMS 4-152"),\
+	("Sem Test 1", "IMY310", "2020-03-12", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "WTW146", "2020-08-19", "17:30 - 20:00", "Large Chemistry"),\
+	("Sem Test 1", "WTW146", "2020-08-19", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "WTW148", "2020-08-18", "17:30 - 20:00", "EMS 4-150"),\
+	("Sem Test 1", "WTW148", "2020-08-18", "17:30 - 20:00", "EMS 4-151"),\
+	("Sem Test 1", "WTW148", "2020-08-18", "17:30 - 20:00", "EMS 4-152"),\
+	("Sem Test 1", "WTW152", "2020-03-19", "17:30 - 20:00", "Louw Hall"),\
+	("Sem Test 1", "WTW152", "2020-03-19", "17:30 - 20:00", "Roos Hall"),\
+	("Sem Test 1", "WTW152", "2020-03-19", "17:30 - 20:00", "Van der Bijl Hall"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "STK110", "2020-03-12", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "STC122", "2020-03-12", "17:30 - 20:00", "Consult Dept"),\
+	("Sem Test 1", "STK210", "2020-03-12", "17:30 - 20:00", "ENG 3-3"),\
+	("Sem Test 1", "STK210", "2020-03-12", "17:30 - 20:00", "IT 4-1"),\
+	("Sem Test 1", "STK210", "2020-03-12", "17:30 - 20:00", "IT 4-5"),\
+	("Sem Test 1", "STK220", "2020-08-28", "17:30 - 20:00", "IT 4-1"),\
+	("Sem Test 1", "STK220", "2020-08-28", "17:30 - 20:00", "IT 4-4"),\
+	("Sem Test 1", "STK220", "2020-08-28", "17:30 - 20:00", "IT 4-5"),\
+	("Sem Test 1", "WST212", "2020-03-07", "08:30 - 12:30", "Informatorium Blue lab 1"),\
+	("Sem Test 1", "COS314", "2020-03-09", "08:30 - 12:30", "IT 2-23"),\
+	("Sem Test 1", "COS326", "2020-0-16", "08:30 - 12:30", "IT 2-26"),\
+	("Sem Test 1", "STK353", "2020-08-24", "15:30 - 18:30", "Consult Dept"),\
+	("Sem Test 1", "BME120", "2020-08-27", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "BME120", "2020-08-27", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "BME120", "2020-08-27", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "BME120", "2020-08-27", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "BME120", "2020-08-27", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-1"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-2"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-3"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-4"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-6"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "ENG 3-7"),\
+	("Sem Test 1", "BOT161", "2020-08-26", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-1"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-2"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-3"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-4"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-5"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "ENG 3-6"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "Muller Hall"),\
+	("Sem Test 1", "GTS161", "2020-09-08", "17:30 - 20:00", "South Hall"),\
+	("Sem Test 1", "MBY161", "2020-09-10", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "MBY161", "2020-09-10", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "MBY161", "2020-09-10", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "MBY161", "2020-09-10", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "MBY161", "2020-09-10", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "MLB111", "2020-09-10", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "MLB111", "2020-03-16", "17:30 - 20:00", "South Hall"),\
+	("Sem Test 1", "MLB111", "2020-03-16", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "MLB111", "2020-03-16", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "MLB111", "2020-03-16", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "MLB111", "2020-03-16", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "WTW134", "2020-03-06", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "WTW134", "2020-03-06", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "WTW134", "2020-03-06", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "WTW134", "2020-03-06", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "EMS 4-150"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "EMS 4-151"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "EMS 4-152"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "IT 4-1"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "IT 4-2"),\
+	("Sem Test 1", "GTS251", "2020-04-02", "17:30 - 20:00", "IT 4-3"),\
+	("Sem Test 1", "GTS261", "2020-09-08", "17:30 - 20:00", "IT 2-23"),\
+	("Sem Test 1", "GTS261", "2020-09-08", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "GTS261", "2020-09-08", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "MBY251", "2020-03-17", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "MBY251", "2020-03-17", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "MBY251", "2020-03-17", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "MBY261", "2020-08-17", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "MBY261", "2020-08-17", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "COS344", "2020-03-05", "17:30 - 20:00", "IT 2-26"),\
+	("Sem Test 1", "GTS354", "2020-03-02", "17:30 - 20:00", "Large Chemistry"),\
+	("Sem Test 1", "GTS354", "2020-03-02", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "GTS367", "2020-09-16", "17:30 - 20:00", "Large Chemistry"),\
+	("Sem Test 1", "BTC361", "2020-08-25", "17:30 - 20:00", "IT 2-23"), \
+	("Sem Test 1", "GGY166", "2020-08-11", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "GGY166", "2020-08-11", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "GGY166", "2020-08-11", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "GMC110", "2020-08-21", "17:30 - 20:00", "EMS 4-152"),\
+	("Sem Test 1", "BEM120", "2020-08-19", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "BEM120", "2020-08-19", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "BEM120", "2020-08-19", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "OBS114", "2020-03-11", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "OBS124", "2020-08-25", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "BEM212", "2020-03-02", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "BEM212", "2020-03-02", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "BEM212", "2020-03-02", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "FIL251", "2020-04-29", "17:30 - 20:00", "EMS 2-150"),\
+	("Sem Test 1", "FIL251", "2020-04-29", "17:30 - 20:00", "EMS 2-151"),\
+	("Sem Test 1", "FIL251", "2020-04-29", "17:30 - 20:00", "EMS 4-150"),\
+	("Sem Test 1", "FIL251", "2020-04-29", "17:30 - 20:00", "EMS 4-151"),\
+	("Sem Test 1", "FIL251", "2020-04-29", "17:30 - 20:00", "EMS 4-152"),\
+	("Sem Test 1", "OBS210", "2020-03-13", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "OBS210", "2020-03-13", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "OBS210", "2020-03-13", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "OBS220", "2020-08-18", "17:30 - 20:00", "Louw Hall"),\
+	("Sem Test 1", "OBS220", "2020-08-18", "17:30 - 20:00", "Muller Hall"),\
+	("Sem Test 1", "OBS220", "2020-08-18", "17:30 - 20:00", "Roos Hall"),\
+	("Sem Test 1", "OBS359", "2020-03-12", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "OBS359", "2020-03-12", "17:30 - 20:00", "South Hall"),\
+	("Sem Test 1", "OBS369", "2020-08-24", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "OBS369", "2020-08-24", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "OBS310", "2020-03-11", "17:30 - 20:00", "Louw Hall"),\
+	("Sem Test 1", "OBS310", "2020-03-11", "17:30 - 20:00", "Roos Hall"),\
+	("Sem Test 1", "OBS310", "2020-03-11", "17:30 - 20:00", "Van der Bijl Hall"),\
+	("Sem Test 1", "OBS320", "2020-08-11", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "OBS320", "2020-08-11", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "OBS320", "2020-08-11", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "OBS320", "2020-08-11", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "OBS320", "2020-08-11", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "KRG110", "2020-04-07", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "KRG110", "2020-04-07", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "KRG110", "2020-04-07", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "KRG110", "2020-04-07", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "KRG110", "2020-04-07", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "KRG120", "2020-09-08", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "KRM110", "2020-03-05", "17:30 - 20:00", "Centenary 4"),\
+	("Sem Test 1", "KRM110", "2020-03-05", "17:30 - 20:00", "Centenary 5"),\
+	("Sem Test 1", "KRM110", "2020-03-05", "17:30 - 20:00", "Centenary 6"),\
+	("Sem Test 1", "KRM110", "2020-03-05", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "KRM120", "2020-08-12", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "KRM120", "2020-08-12", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "KRM120", "2020-08-12", "17:30 - 20:00", "Thuto 3-1"),\
+	("Sem Test 1", "KRM120", "2020-08-12", "17:30 - 20:00", "Thuto 3-2"),\
+	("Sem Test 1", "KRG200", "2020-05-25", "17:30 - 20:00", "Thuto 1-1"),\
+	("Sem Test 1", "KRG200", "2020-05-25", "17:30 - 20:00", "Thuto 1-2"),\
+	("Sem Test 1", "KRM210", "2020-03-06", "17:30 - 20:00", "Louw Hall"),\
+	("Sem Test 1", "KRM210", "2020-03-06", "17:30 - 20:00", "Roos Hall"),\
+	("Sem Test 1", "KRM210", "2020-03-06", "17:30 - 20:00", "Muller Hall"),\
+	("Sem Test 1", "KRM220", "2020-08-13", "17:30 - 20:00", "Louw Hall"),\
+	("Sem Test 1", "KRM220", "2020-08-13", "17:30 - 20:00", "Muller Hall"),\
+	("Sem Test 1", "KRM310", "2020-03-03", "17:30 - 20:00", "HB 4-1"),\
+	("Sem Test 1", "KRM310", "2020-03-03", "17:30 - 20:00", "HB 4-2"),\
+	("Sem Test 1", "KRM310", "2020-03-03", "17:30 - 20:00", "HB 4-3"),\
+	("Sem Test 1", "KRM310", "2020-03-03", "17:30 - 20:00", "HB 4-6"),\
+	("Sem Test 1", "KRM320", "2020-08-11", "17:30 - 20:00", "HB 4-1"),\
+	("Sem Test 1", "KRM320", "2020-08-11", "17:30 - 20:00", "HB 4-2"),\
+	("Sem Test 1", "KRM320", "2020-08-11", "17:30 - 20:00", "HB 4-3"),\
+	("Sem Test 1", "KRM320", "2020-08-11", "17:30 - 20:00", "HB 4-6"),\
+	("Sem Test 1", "KUB420", "2020-09-15", "17:30 - 20:00", "Muller Hall"),\
+	("Sem Test 1", "INF154", "2020-04-22", "17:30 - 20:00", "Centenary 1"),\
+	("Sem Test 1", "INF154", "2020-04-22", "17:30 - 20:00", "Centenary 2"),\
+	("Sem Test 1", "INF154", "2020-04-22", "17:30 - 20:00", "Centenary 3"),\
+	("Sem Test 1", "INF164", "2020-09-14", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "INF164", "2020-09-14", "17:30 - 20:00", "South Hall"),\
+	("Sem Test 1", "INF171", "2020-04-23", "17:30 - 20:00", "North Hall"),\
+	("Sem Test 1", "INF171", "2020-04-23", "17:30 - 20:00", "Large Chemistry"),\
+	("Sem Test 1", "INF272", "2020-05-14", "17:30 - 20:00", "IT 4-1"),\
+	("Sem Test 1", "INF272", "2020-05-14", "17:30 - 20:00", "IT 4-5"),\
+	("Sem Test 1", "IMY210", "2020-03-10", "17:30 - 20:00", "IT 2-26"),\
+	("Sem Test 1", "IMY220", "2020-10-15", "17:30 - 20:00", "HB 4-2"),\
+	("Sem Test 1", "INF354", "2020-04-15", "17:30-20:00", "IT 2-26"),\
+	("Sem Test 1", "COS333", "2020-08-18", "17:30 - 20:00", "Centenary 5");\
+\
+	INSERT INTO assesment(module_Code, assesment_Date, assesment_Time, venue_name,assesment_Type)\
+	VALUES\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 1", "Sem Test 2"),\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 2", "Sem Test 2"),\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 3", "Sem Test 2"),\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 4", "Sem Test 2"),\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 5", "Sem Test 2"),\
+	("COS132", "2020-04-24", "17:30 - 19:30", "Centenary 6", "Sem Test 2"),\
+	("COS151", "2020-05-14", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("COS151", "2020-05-14", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("COS151", "2020-05-14", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("COS110", "2020-10-02", "17:30 - 19:30","EMS 2-150", "Sem Test 2"),\
+	("COS110", "2020-10-02", "17:30 - 19:30","EMS 2-151", "Sem Test 2"),\
+	("COS110", "2020-10-02", "17:30 - 19:30","EMS 4-150", "Sem Test 2"),\
+	("COS110", "2020-10-02", "17:30 - 19:30","IT 2-23", "Sem Test 2"),\
+	("COS122", "2020-10-10", "07:30 - 09:30","Centenary 1", "Sem Test 2"),\
+	("COS122", "2020-10-10", "07:30 - 09:30","Centenary 2", "Sem Test 2"),\
+	("COS122", "2020-10-10", "07:30 - 09:30","Centenary 3", "Sem Test 2"),\
+	("COS122", "2020-10-10", "07:30 - 09:30","Centenary 4", "Sem Test 2"),\
+	("COS122", "2020-10-10", "07:30 - 09:30","Centenary 5", "Sem Test 2"),\
+	("WTW115", "2020-04-30", "17:30 - 20:00","ENG 3-4", "Sem Test 2"),\
+	("WTW115", "2020-04-30", "17:30 - 20:00","ENG 3-5", "Sem Test 2"),\
+	("WTW115", "2020-04-30", "17:30 - 20:00","ENG 3-6", "Sem Test 2"),\
+	("WTW115", "2020-04-30", "17:30 - 20:00","ENG 3-7", "Sem Test 2"),\
+	("COS210", "2020-04-29", "17:30 - 20:00","IT 2-23", "Sem Test 2"),\
+	("COS210", "2020-04-29", "17:30 - 20:00","IT 2-26", "Sem Test 2"),\
+	("COS212", "2020-04-23", "17:30 - 19:30","Louw hall", "Sem Test 2"),\
+	("COS212", "2020-04-23", "17:30 - 19:30","Roos hall", "Sem Test 2"),\
+	("COS216", "2020-04-06", "17:30 - 20:00","Centenary 1", "Sem Test 2"),\
+	("COS216", "2020-04-06", "17:30 - 20:00","Centenary 2", "Sem Test 2"),\
+	("COS221", "2020-04-07", "17:30 - 20:00","IT 2-24", "Sem Test 2"),\
+	("COS221", "2020-04-07", "17:30 - 20:00","IT 4-5", "Sem Test 2"),\
+	("COS214", "2020-09-14", "17:30 - 20:00","IT 2-23", "Sem Test 2"),\
+	("COS214", "2020-09-14", "17:30 - 20:00","IT 4-5", "Sem Test 2"),\
+	("COS226", "2020-09-28", "17:30 - 20:00","Large Chemistry", "Sem Test 2"),\
+	("COS284", "2020-10-05", "17:30 - 20:00","Large Chemistry", "Sem Test 2"),\
+	("COS284", "2020-10-05", "17:30 - 20:00","South Hall", "Sem Test 2"),\
+	("WTW285", "2020-10-01", "17:30 - 20:00","Thuto 1-1", "Sem Test 2"),\
+	("COS301", "2020-10-02", "17:30 - 20:00", "IT 4-1", "Sem Test 2"),\
+	("COS332", "2020-05-12", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("IMY310", "2020-05-15", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("WTW146", "2020-09-30", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("WTW146", "2020-09-30", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("WTW146", "2020-09-30", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("WTW148", "2020-10-14", "17:30 - 20:00", "EMS 4-150", "Sem Test 2"),\
+	("WTW148", "2020-10-14", "17:30 - 20:00", "EMS 4-151", "Sem Test 2"),\
+	("WTW148", "2020-10-14", "17:30 - 20:00", "EMS 4-152", "Sem Test 2"),\
+	("WTW152", "2020-04-22", "17:30 - 20:00", "Consult Dept", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("STK110", "2020-05-07", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("STC122", "2020-10-12", "17:30 - 20:00", "Consult Dept", "Sem Test 2"),\
+	("STK210", "2020-05-08", "17:30 - 20:00", "IT 2-24", "Sem Test 2"),\
+	("STK210", "2020-05-08", "17:30 - 20:00", "IT 2-25", "Sem Test 2"),\
+	("STK210", "2020-05-08", "17:30 - 20:00", "IT 4-1", "Sem Test 2"),\
+	("STK210", "2020-05-08", "17:30 - 20:00", "IT 4-5", "Sem Test 2"),\
+	("STK220", "2020-10-07", "17:30 - 20:00", "IT 2-26", "Sem Test 2"),\
+	("STK220", "2020-10-12", "17:30 - 20:00", "IT 4-1", "Sem Test 2"),\
+	("STK220", "2020-10-12", "17:30 - 20:00", "IT 4-5", "Sem Test 2"),\
+	("WST212", "2020-04-04", "08:30 - 12:30", "Informatorium Blue lab 1", "Sem Test 2"),\
+	("COS314", "2020-05-07", "08:30 - 12:30", "HB 4-1", "Sem Test 2"),\
+	("STK353", "2020-09-21", "15:30 - 18:30", "Consult Dept", "Sem Test 2"),\
+	("BME120", "2020-09-30", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("BME120", "2020-09-30", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("BME120", "2020-09-30", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("BME120", "2020-09-30", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("BME120", "2020-09-30", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("BOT161", "2020-10-07", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("BOT161", "2020-10-07", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("BOT161", "2020-10-07", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("BOT161", "2020-10-07", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("GTS161", "2020-10-15", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("GTS161", "2020-10-15", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("GTS161", "2020-10-15", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("GTS161", "2020-10-15", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("MBY161", "2020-10-12", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("MBY161", "2020-10-12", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("MBY161", "2020-10-12", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("MBY161", "2020-10-12", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("MBY161", "2020-10-12", "17:30 - 20:00", "North Hall", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "North Hall", "Sem Test 2"),\
+	("MLB111", "2020-05-06", "17:30 - 20:00", "South Hall", "Sem Test 2"),\
+	("WTW134", "2020-04-16", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("WTW134", "2020-04-16", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("WTW134", "2020-04-16", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("WTW134", "2020-04-16", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("GTS251", "2020-05-15", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("GTS261", "2020-10-06", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("GTS261", "2020-10-06", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("GTS261", "2020-10-06", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("MBY251", "2020-05-12", "17:30 - 20:00", "EMS 4-150", "Sem Test 2"),\
+	("MBY251", "2020-05-12", "17:30 - 20:00", "EMS 4-151", "Sem Test 2"),\
+	("MBY251", "2020-05-12", "17:30 - 20:00", "EMS 4-152", "Sem Test 2"),\
+	("MBY261", "2020-10-16", "17:30 - 20:00", "HB 4-1", "Sem Test 2"),\
+	("MBY261", "2020-10-16", "17:30 - 20:00", "HB 4-2", "Sem Test 2"),\
+	("MBY261", "2020-10-16", "17:30 - 20:00", "HB 4-3", "Sem Test 2"),\
+	("COS344", "2020-05-05", "17:30 - 20:00", "IT 2-26", "Sem Test 2"),\
+	("GTS354", "2020-04-20", "17:30 - 20:00", "Large Chemistry", "Sem Test 2"),\
+	("GTS354", "2020-04-20", "17:30 - 20:00", "North Hall", "Sem Test 2"),\
+	("GTS367", "2020-10-19", "17:30 - 20:00", "AE du Toit Auditorium", "Sem Test 2"),\
+	("BTC361", "2020-10-16", "17:30 - 20:00", "EMS 4-150", "Sem Test 2"), \
+	("GGY166", "2020-08-28", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("GGY166", "2020-08-28", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("GGY166", "2020-08-28", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("GMC110", "2020-10-20", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("BEM120", "2020-09-29", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("BEM120", "2020-09-29", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("BEM120", "2020-09-29", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("OBS114", "2020-05-05", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("OBS124", "2020-10-08", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("BEM212", "2020-04-06", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("BEM212", "2020-04-06", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("BEM212", "2020-04-06", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("FIL251", "2020-08-19", "17:30 - 20:00", "Louw Hall", "Sem Test 2"),\
+	("FIL251", "2020-08-19", "17:30 - 20:00", "Muller Hall", "Sem Test 2"),\
+	("FIL251", "2020-08-19", "17:30 - 20:00", "Roos Hall", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("OBS210", "2020-04-30", "17:30 - 20:00", "IT 4-1", "Sem Test 2"),\
+	("OBS220", "2020-10-05", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("OBS220", "2020-10-05", "17:30 - 20:00", "Thuto 3-1", "Sem Test 2"),\
+	("OBS220", "2020-10-05", "17:30 - 20:00", "Thuto 3-2", "Sem Test 2"),\
+	("OBS359", "2020-04-28", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("OBS359", "2020-04-28", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("OBS359", "2020-04-28", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("OBS369", "2020-10-16", "17:30 - 20:00", "IT 4-1", "Sem Test 2"),\
+	("OBS369", "2020-10-05", "17:30 - 20:00", "IT 4-5", "Sem Test 2"),\
+	("OBS310", "2020-04-24", "17:30 - 20:00", "Louw hall", "Sem Test 2"),\
+	("OBS310", "2020-04-24", "17:30 - 20:00", "Roos hall", "Sem Test 2"),\
+	("OBS310", "2020-04-24", "17:30 - 20:00", "Van der Bijl Hall", "Sem Test 2"),\
+	("OBS320", "2020-10-01", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("OBS320", "2020-10-01", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("OBS320", "2020-10-01", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("OBS320", "2020-10-01", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("OBS320", "2020-10-01", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-1", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-2", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-3", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-4", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-5", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-6", "Sem Test 2"),\
+	("KRM110", "2020-05-04", "17:30 - 20:00", "ENG 3-7", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 1", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 2", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 3", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 4", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 5", "Sem Test 2"),\
+	("KRM120", "2020-10-09", "17:30 - 20:00", "Centenary 6", "Sem Test 2"),\
+	("KRG200", "2020-09-21", "17:30 - 20:00", "Thuto 1-1", "Sem Test 2"),\
+	("KRG200", "2020-09-21", "17:30 - 20:00", "Thuto 1-2", "Sem Test 2"),\
+	("KRM210", "2020-04-28", "17:30 - 20:00", "Louw Hall", "Sem Test 2"),\
+	("KRM210", "2020-04-28", "17:30 - 20:00", "Roos Hall", "Sem Test 2"),\
+	("KRM210", "2020-04-28", "17:30 - 20:00", "Muller Hall", "Sem Test 2"),\
+	("KRM220", "2020-10-05", "17:30 - 20:00", "Van der Bijl Hall", "Sem Test 2"),\
+	("KRM220", "2020-10-05", "17:30 - 20:00", "Muller Hall", "Sem Test 2"),\
+	("KRM220", "2020-10-05", "17:30 - 20:00", "AE du Toit Auditorium", "Sem Test 2"),\
+	("INF171", "2020-08-12", "17:30 - 20:00", "North Hall", "Sem Test 2"),\
+	("INF171", "2020-08-12", "17:30 - 20:00", "Large Chemistry", "Sem Test 2"),\
+	("INF272", "2020-08-26", "17:30 - 20:00", "Consult Dept", "Sem Test 2"),\
+	("IMY210", "2020-04-20", "17:30 - 20:00", "IT 2-26", "Sem Test 2"),\
+	("COS333", "2020-10-15", "17:30 - 20:00", "IT 4-5", "Sem Test 2"),\
+	("COS214", "2020-10-08", "17:30 - 20:00", "IT 2-23","Sem Test 3"),\
+	("COS214", "2020-10-08", "17:30 - 20:00", "IT 4-5","Sem Test 3"),\
+	("COS216", "2020-05-13", "17:30 - 20:00", "IT 4-1","Sem Test 3"),\
+	("COS216", "2020-05-13", "17:30 - 20:00", "IT 4-5","Sem Test 3"),\
+	("WST212", "2020-05-16", "08:00 - 10:30", "Informatorium Blue lab 1","Sem Test 3"),\
+	("BEM120", "2020-10-22", "17:30 - 20:00", "Thuto 1-2","Sem Test 3"),\
+	("BEM120", "2020-10-22", "17:30 - 20:00", "Thuto 1-1","Sem Test 3"),\
+	("BEM120", "2020-10-22", "17:30 - 20:00", "Thuto 3-2","Sem Test 3"),\
+	("BEM212", "2020-05-14", "17:30 - 20:00", "North Hall","Sem Test 3"),\
+	("BEM212", "2020-05-14", "17:30 - 20:00", "South Hall","Sem Test 3"),\
+	("BEM212", "2020-05-14", "17:30 - 20:00", "Centenary 1","Sem Test 3"),\
+	("FIL251", "2020-10-15", "17:30 - 20:00", "HB 4-1","Sem Test 3"),\
+	("INF171", "2020-10-16", "17:30 - 20:00", "North Hall","Sem Test 3"),\
+	("INF171", "2020-10-16", "17:30 - 20:00", "Large Chemistry","Sem Test 3"),\
+	("INF272", "2020-10-19", "17:30 - 20:00", "Consult Dept","Sem Test 3"),\
+	("COS132", "2020-06-05", "16:00", "TBA", "Examination"),\
+	("COS151", "2020-06-18", "08:00", "TBA", "Examination"),\
+	("COS110", "2020-11-11", "16:00", "TBA", "Examination"),\
+	("COS122", "2020-11-07", "12:00", "TBA", "Examination"),\
+	("WTW115", "2020-06-10", "08:00", "TBA", "Examination"),\
+	("COS210", "2020-06-01", "08:00", "TBA", "Examination"),\
+	("COS212", "2020-06-12", "16:00", "TBA", "Examination"),\
+	("COS214", "2020-11-17", "12:00", "TBA", "Examination"),\
+	("COS216", "2020-06-18", "12:00", "TBA", "Examination"),\
+	("COS221", "2020-06-04", "08:00", "TBA", "Examination"),\
+	("COS226", "2020-11-05", "16:00", "TBA", "Examination"),\
+	("COS284", "2020-11-03", "08:00", "TBA", "Examination"),\
+	("WTW285", "2020-11-09", "12:00", "TBA", "Examination"),\
+	("COS330", "2020-11-17", "08:00", "TBA", "Examination"),\
+	("COS332", "2020-06-03", "08:00", "TBA", "Examination"),\
+	("IMY310", "2020-06-17", "08:00", "TBA", "Examination"),\
+	("WTW146", "2020-11-16", "12:00", "TBA", "Examination"),\
+	("WTW148", "2020-11-12", "08:00", "TBA", "Examination"),\
+	("WTW152", "2020-06-08", "16:00", "TBA", "Examination"),\
+	("STK110", "2020-06-08", "08:00", "TBA", "Examination"),\
+	("STK210", "2020-06-10", "12:00", "TBA", "Examination"),\
+	("STK220", "2020-11-09", "08:00", "TBA", "Examination"),\
+	("WST212", "2020-06-04", "08:00", "TBA", "Examination"),\
+	("COS314", "2020-06-09", "08:00", "TBA", "Examination"),\
+	("COS326", "2020-11-03", "16:00", "TBA", "Examination"),\
+	("STK353", "2020-11-13", "08:00", "TBA", "Examination"),\
+	("BME120", "2020-11-13", "16:00", "TBA", "Examination"),\
+	("BOT161", "2020-11-03", "12:00", "TBA", "Examination"),\
+	("GTS161", "2020-11-16", "16:00", "TBA", "Examination"),\
+	("MBY161", "2020-11-09", "12:00", "TBA", "Examination"),\
+	("MLB111", "2020-06-09", "12:00", "TBA", "Examination"),\
+	("WTW134", "2020-06-03", "08:00", "TBA", "Examination"),\
+	("GTS251", "2020-06-06", "08:00", "TBA", "Examination"),\
+	("GTS261", "2020-11-07", "12:00", "TBA", "Examination"),\
+	("MBY251", "2020-06-17", "08:00", "TBA", "Examination"),\
+	("MBY261", "2020-11-10", "12:00", "TBA", "Examination"),\
+	("COS344", "2020-06-18", "08:00", "TBA", "Examination"),\
+	("GTS354", "2020-06-08", "12:00", "TBA", "Examination"),\
+	("GTS354", "2020-11-14", "08:00", "TBA", "Examination"),\
+	("BTC361", "2020-11-10", "08:00", "TBA", "Examination"),\
+	("GGY156", "2020-06-17", "16:00", "TBA", "Examination"),\
+	("GGY166", "2020-11-20", "16:00", "TBA", "Examination"),\
+	("GMC110", "2020-11-17", "08:00", "TBA", "Examination"),\
+	("GGY283", "2020-06-19", "12:00", "TBA", "Examination"),\
+	("GMA220", "2020-05-30", "08:00", "TBA", "Examination"),\
+	("GIS310", "2020-06-08", "12:00", "TBA", "Examination"),\
+	("GIS320", "2020-11-09", "12:00", "TBA", "Examination"),\
+	("BEM120", "2020-11-12", "16:00", "TBA", "Examination"),\
+	("BEM212", "2020-06-08", "16:00", "TBA", "Examination"),\
+	("FIL251", "2020-06-17", "12:00", "TBA", "Examination"),\
+	("FIL251", "2020-11-03", "08:00", "TBA", "Examination"),\
+	("OBS210", "2020-06-12", "08:00", "TBA", "Examination"),\
+	("OBS220", "2020-11-11", "08:00", "TBA", "Examination"),\
+	("OBS359", "2020-06-01", "12:00", "TBA", "Examination"),\
+	("OBS310", "2020-06-11", "12:00", "TBA", "Examination"),\
+	("OBS320", "2020-11-09", "16:00", "TBA", "Examination"),\
+	("KRG110", "2020-05-30", "12:00", "TBA", "Examination"),\
+	("KRG120", "2020-11-03", "16:00", "TBA", "Examination"),\
+	("KRM110", "2020-06-08", "12:00", "TBA", "Examination"),\
+	("KRM120", "2020-11-03", "12:00", "TBA", "Examination"),\
+	("KRG200", "2020-11-18", "16:00", "TBA", "Examination"),\
+	("KRM210", "2020-06-02", "12:00", "TBA", "Examination"),\
+	("KRM220", "2020-11-12", "12:00", "TBA", "Examination"),\
+	("KRM310", "2020-06-06", "08:00", "TBA", "Examination"),\
+	("KRM320", "2020-11-05", "12:00", "TBA", "Examination"),\
+	("KUB420", "2020-11-05", "16:00", "TBA", "Examination"),\
+	("INF154", "2020-06-20", "08:00", "TBA", "Examination"),\
+	("INF164", "2020-11-13", "08:00", "TBA", "Examination"),\
+	("INF171", "2020-11-09", "08:00", "TBA", "Examination"),\
+	("INF272", "2020-11-14", "12:00", "TBA", "Examination"),\
+	("IMY210", "2020-06-17", "16:00", "TBA", "Examination"),\
+	("IMY220", "2020-11-13", "16:00", "TBA", "Examination"),\
+	("INF354", "2020-06-05", "08:00", "TBA", "Examination"),\
+	("COS333", "2020-11-20", "08:00", "TBA", "Examination");\
+\
+	INSERT INTO prerequisite(module_Code,prereq)\
+	VALUES   \
+	("MLB111","Mathematics level 5"),\
+	("COS132","Mathematics level 5"),\
+	("COS110","Mathematics level 5"),\
+	("COS151","Mathematics level 5"),\
+	("WTW115","Mathematics level 4"),\
+	("WTW134","Mathematics level 4"),\
+	("WTW146","Mathematics level 4"),\
+	("WTW148","WTW114GS or WTW134"),\
+	("WTW152","Mathematics level 5"),\
+	("STK110","Mathematics level 5"),\
+	("COS110", "COS132"),\
+	("COS110", "COS152"),\
+	("COS122", "COS132"),\
+	("COS210", "COS110"),\
+	("COS210", "COS151"),\
+	("COS212", "COS110"),\
+	("COS214", "COS212"),\
+	("COS216", "COS110"),\
+	("COS221", "COS110"),\
+	("COS226", "COS122"),\
+	("COS226", "COS212"),\
+	("COS284", "COS212"),\
+	("WTW285", "WTW115"),\
+	("COS301", "COS212"),\
+	("COS301", "COS214"),\
+	("COS330", "COS110"),\
+	("COS332", "COS216"),\
+	("COS333", "COS110"),\
+	("COS314", "COS110"),\
+	("COS326", "COS221"),\
+	("WTW148", "WTW134"),\
+	("STC122", "STK110"),\
+	("STK210", "STK110"),\
+	("STK210", "STK120"),\
+	("STK220", "STK210"),\
+	("WST212", "STC122"),\
+	("WST212", "STK110"),\
+	("STK353", "STK210"),\
+	("STK353", "STK220"),\
+	("BOT161", "MLB111GS"),\
+	("GTS161", "MLB111GS"),\
+	("GTS251", "GTS161"),\
+	("GTS261", "GTS251"),\
+	("MBY251", "MBY161"),\
+	("MBY261", "MBY161"),\
+	("GGY283", "GMC110"),\
+	("GIS220", "GMC110"),\
+	("GMA220", "GMC110"),\
+	("GIS310", "GGY283"),\
+	("GIS320", "GGY283"),\
+	("GIS320", "GIS310"),\
+	("BEM212", "BEM120"),\
+	("OBS210", "OBS124"),\
+	("OBS220", "OBS124"),\
+	("OBS359", "OBS124"),\
+	("OBS310", "OBS124"),\
+	("OBS320", "OBS124"),\
+	("KRG120", "KRG110"),\
+	("KRM120", "KRM110"),\
+	("KRG200", "KRG120"),\
+	("KRM210", "KRM110"),\
+	("KRM210", "KRM120"),\
+	("KRM220", "KRM110"),\
+	("KRM220", "KRM120"),\
+	("KRM220", "KRM210"),\
+	("KRM310", "KRM210"),\
+	("KRM310", "KRM220"),\
+	("KRM320", "KRM210"),\
+	("KRM320", "KRM220"),\
+	("KRM320", "KRM310"),\
+	("INF164", "INF154"),\
+	("INF272", "INF164"),\
+	("IMY210", "IMY110"),\
+	("IMY220", "IMY210"),\
+	("IMY220", "IMY216"),\
+	("INF354", "INF261"),\
+	("INF354", "INF225"),\
+	("INF354", "INF271"),\
+	("INF354", "INF272"),\
+	("IMY310","Departmental Selection");\
+}
